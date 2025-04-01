@@ -1,0 +1,134 @@
+{
+	"questions": [
+		{
+			"question": "What is the name of the island where Jurassic Park is located?",
+			"answers": [
+				"Isla Nublar",
+				"Isla Sorna",
+				"Skull Island",
+				"Isla Matanceros"
+			],
+			"good_answer": 0,
+			"picture": "/images/jurassicpark/island.avif",
+			"audio": null,
+			"is_audio": false
+		},
+		{
+			"question": "Who is the creator of Jurassic Park?",
+			"answers": [
+				"John Hammond",
+				"Ian Malcolm",
+				"Alan Grant",
+				"Ellie Sattler"
+			],
+			"good_answer": 0,
+			"picture": "/images/jurassicpark/creator.webp",
+			"audio": null,
+			"is_audio": false
+		},
+		{
+			"question": "What type of dinosaur is the primary predator in the first Jurassic Park movie?",
+			"answers": [
+				"Tyrannosaurus Rex",
+				"Velociraptor",
+				"Spinosaurus",
+				"Brachiosaurus"
+			],
+			"good_answer": 0,
+			"picture": "/images/jurassicpark/dinosaur.jpg",
+			"audio": null,
+            "is_audio": false
+		},
+		{
+			"question": "What is the name of the company that owns Jurassic Park?",
+			"answers": [
+				"Ingen",
+				"Biosyn",
+				"BlueSky",
+				"DinoCorp"
+			],
+			"good_answer": 0,
+			"picture": "/images/jurassicpark/company.jpg",
+			"audio": null,
+			"is_audio": false
+		},
+		{
+			"question": "What item does Dennis Nedry use to smuggle dinosaur embryos?",
+			"answers": [
+				"A shaving cream can",
+				"A backpack",
+				"A briefcase",
+				"A lunchbox"
+			],
+			"good_answer": 0,
+			"picture": "/images/jurassicpark/item.jpg",
+			"audio": null,
+			"is_audio": false
+		},
+		{
+			"question": "What is the name of the young girl in Jurassic Park who is interested in computers?",
+			"answers": [
+				"Lex",
+				"Ellie",
+				"Sarah",
+				"Kelly"
+			],
+			"good_answer": 0,
+			"picture": "/images/jurassicpark/girl.avif",
+			"audio": null,
+			"is_audio": false
+		},
+		{
+			"question": "What is the name of the dinosaur that spits venom in the first Jurassic Park movie?",
+			"answers": [
+				"Dilophosaurus",
+				"Velociraptor",
+				"Carnotaurus",
+				"Pachycephalosaurus"
+			],
+			"good_answer": 0,
+			"picture": "/images/jurassicpark/venom.webp",
+			"audio": null,
+            "is_audio": false
+		},
+		{
+			"question": "Who is the mathematician and chaos theorist in Jurassic Park?",
+			"answers": [
+				"Ian Malcolm",
+				"Alan Grant",
+				"John Hammond",
+				"Henry Wu"
+			],
+			"good_answer": 0,
+			"picture": "/images/jurassicpark/theorist.avif",
+			"audio": null,
+			"is_audio": false
+		},
+		{
+			"question": "What is the name of the dinosaur that Alan Grant sees first when arriving at the park?",
+			"answers": [
+				"Brachiosaurus",
+				"Stegosaurus",
+				"Triceratops",
+				"Tyrannosaurus Rex"
+			],
+			"good_answer": 0,
+			"picture": "/images/jurassicpark/arrival.jpg",
+			"audio": null,
+			"is_audio": false
+		},
+		{
+			"question": "What is the tagline of the first Jurassic Park movie?",
+			"answers": [
+				"Life finds a way.",
+				"An adventure 65 million years in the making.",
+				"Hold on to your butts.",
+				"Welcome to the park."
+			],
+			"good_answer": 1,
+			"picture": "/images/jurassicpark/tagline.jpg",
+			"audio": null,
+			"is_audio": false
+		}
+	]
+}

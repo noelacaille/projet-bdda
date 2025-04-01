@@ -1,0 +1,134 @@
+{
+    "questions": [
+        {
+            "question": "What is the real name of Iron Man?",
+            "answers": [
+                "Steve Rogers",
+                "Tony Stark",
+                "Bruce Banner",
+                "Peter Parker"
+            ],
+            "good_answer": 1,
+            "picture": "/images/marvel/ironman.jpg",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What is the name of Thor's hammer?",
+            "answers": [
+                "Stormbreaker",
+                "Mjolnir",
+                "Gungnir",
+                "Aegis"
+            ],
+            "good_answer": 1,
+            "picture": "/images/marvel/hammer.jpg",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "Which Infinity Stone is hidden on Vormir?",
+            "answers": [
+                "Mind Stone",
+                "Soul Stone",
+                "Power Stone",
+                "Reality Stone"
+            ],
+            "good_answer": 1,
+            "picture": "/images/marvel/stone.webp",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "Who is the first Avenger recruited by Nick Fury?",
+            "answers": [
+                "Black Widow",
+                "Iron Man",
+                "Captain America",
+                "Hawkeye"
+            ],
+            "good_answer": 2,
+            "picture": "/images/marvel/avenger.jpg",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What is the name of Black Panther's kingdom?",
+            "answers": [
+                "Wakanda",
+                "Sokovia",
+                "Latveria",
+                "Asgard"
+            ],
+            "good_answer": 0,
+            "picture": "/images/marvel/kingdom.avif",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What is the name of Spider-Man's aunt?",
+            "answers": [
+                "Aunt May",
+                "Aunt Jane",
+                "Aunt Susan",
+                "Aunt Mary"
+            ],
+            "good_answer": 0,
+            "picture": "/images/marvel/aunt.webp",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What is the real name of the Hulk?",
+            "answers": [
+                "Tony Stark",
+                "Steve Rogers",
+                "Bruce Banner",
+                "Stephen Strange"
+            ],
+            "good_answer": 2,
+            "picture": "/images/marvel/hulk.webp",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "Who is the main villain in 'Avengers: Infinity War'?",
+            "answers": [
+                "Loki",
+                "Ultron",
+                "Thanos",
+                "Red Skull"
+            ],
+            "good_answer": 2,
+            "picture": "/images/marvel/villain.webp",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What is the name of Captain America's shield made of?",
+            "answers": [
+                "Vibranium",
+                "Adamantium",
+                "Titanium",
+                "Steel"
+            ],
+            "good_answer": 0,
+            "picture": "/images/marvel/shield.jpg",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What is Doctor Strange's primary artifact?",
+            "answers": [
+                "Cloak of Levitation",
+                "Eye of Agamotto",
+                "Book of Vishanti",
+                "Staff of the Living Tribunal"
+            ],
+            "good_answer": 1,
+            "picture": "/images/marvel/artifact.jpg",
+            "audio": null,
+            "is_audio": false
+        }
+    ]
+}

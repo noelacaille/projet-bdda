@@ -1,0 +1,134 @@
+{
+    "questions": [
+        {
+            "question": "What is the name of Harry Potter's owl?",
+            "answers": [
+                "Hedwig",
+                "Errol",
+                "Pigwidgeon",
+                "Crookshanks"
+            ],
+            "good_answer": 0,
+            "picture": "/images/harrypotter/owl.jpg",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "Which house at Hogwarts is known for bravery?",
+            "answers": [
+                "Ravenclaw",
+                "Hufflepuff",
+                "Slytherin",
+                "Gryffindor"
+            ],
+            "good_answer": 3,
+            "picture": "/images/harrypotter/house.avif",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What position does Harry play on the Quidditch team?",
+            "answers": [
+                "Beater",
+                "Seeker",
+                "Chaser",
+                "Keeper"
+            ],
+            "good_answer": 1,
+            "picture": "/images/harrypotter/quidditch.jpg",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What is the name of Hermione's cat?",
+            "answers": [
+                "Crookshanks",
+                "Hedwig",
+                "Fang",
+                "Scabbers"
+            ],
+            "good_answer": 0,
+            "picture": "/images/harrypotter/cat.jpg",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "Who teaches Potions at Hogwarts in Harry's first year?",
+            "answers": [
+                "Professor McGonagall",
+                "Professor Snape",
+                "Professor Lupin",
+                "Professor Quirrell"
+            ],
+            "good_answer": 1,
+            "picture": "/images/harrypotter/potions.jpg",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What magical object shows the deepest desires of one's heart?",
+            "answers": [
+                "The Elder Wand",
+                "The Sorting Hat",
+                "The Mirror of Erised",
+                "The Marauder's Map"
+            ],
+            "good_answer": 2,
+            "picture": "/images/harrypotter/mirror.jpg",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What is the name of Ron's pet rat?",
+            "answers": [
+                "Scabbers",
+                "Fang",
+                "Norbert",
+                "Trevor"
+            ],
+            "good_answer": 0,
+            "picture": "/images/harrypotter/rat.jpg",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "Who is the Headmaster of Hogwarts during most of Harry's time there?",
+            "answers": [
+                "Professor Dumbledore",
+                "Professor Snape",
+                "Professor McGonagall",
+                "Professor Umbridge"
+            ],
+            "good_answer": 0,
+            "picture": "/images/harrypotter/headmaster.avif",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What platform does the Hogwarts Express leave from?",
+            "answers": [
+                "Platform 9",
+                "Platform 10",
+                "Platform 9 3/4",
+                "Platform 8 3/4"
+            ],
+            "good_answer": 2,
+            "picture": "/images/harrypotter/platform.jpg",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What shape is Harry's scar?",
+            "answers": [
+                "A star",
+                "A lightning bolt",
+                "A crescent moon",
+                "A wand"
+            ],
+            "good_answer": 1,
+            "picture": "/images/harrypotter/scar.avif",
+            "audio": null,
+            "is_audio": false
+        }
+    ]
+}

@@ -1,0 +1,134 @@
+{
+    "questions": [
+        {
+            "question": "What is the name of Frodo's loyal friend who accompanies him to Mount Doom?",
+            "answers": [
+                "Sam",
+                "Pippin",
+                "Merry",
+                "Boromir"
+            ],
+            "good_answer": 0,
+            "picture": "/images/lotr/friend.avif",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What is the name of the fiery mountain where the One Ring must be destroyed?",
+            "answers": [
+                "Mount Doom",
+                "Mount Erebor",
+                "Mount Gundabad",
+                "Mount Caradhras"
+            ],
+            "good_answer": 0,
+            "picture": "/images/lotr/mountain.jpg",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What is the Elvish name for Rivendell?",
+            "answers": [
+                "Lothlórien",
+                "Imladris",
+                "Valinor",
+                "Mirkwood"
+            ],
+            "good_answer": 1,
+            "picture": "/images/lotr/rivendell.avif",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "Who forged the One Ring?",
+            "answers": [
+                "Sauron",
+                "Saruman",
+                "Gandalf",
+                "Elrond"
+            ],
+            "good_answer": 0,
+            "picture": "/images/lotr/ring.jpg",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What is the name of the inn where Frodo first meets Aragorn?",
+            "answers": [
+                "The Prancing Pony",
+                "The Green Dragon",
+                "The Floating Log",
+                "The Golden Perch"
+            ],
+            "good_answer": 0,
+            "picture": "/images/lotr/inn.jpg",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What is the name of the giant spider that attacks Frodo in 'The Return of the King'?",
+            "answers": [
+                "Ungoliant",
+                "Shelob",
+                "Aragog",
+                "Goliath"
+            ],
+            "good_answer": 1,
+            "picture": "/images/lotr/spider.webp",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What gift does Galadriel give to Frodo?",
+            "answers": [
+                "A sword",
+                "A light of Eärendil",
+                "An elven cloak",
+                "A ring"
+            ],
+            "good_answer": 1,
+            "picture": "/images/lotr/light.jpg",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What race is Legolas?",
+            "answers": [
+                "Dwarf",
+                "Hobbit",
+                "Elf",
+                "Man"
+            ],
+            "good_answer": 2,
+            "picture": "/images/lotr/elf.avif",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What is the name of the kingdom where Aragorn becomes king?",
+            "answers": [
+                "Gondor",
+                "Rohan",
+                "Mordor",
+                "Erebor"
+            ],
+            "good_answer": 0,
+            "picture": "/images/lotr/kingdom.avif",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What is the name of Frodo's sword?",
+            "answers": [
+                "Glamdring",
+                "Andúril",
+                "Sting",
+                "Narsil"
+            ],
+            "good_answer": 2,
+            "picture": "/images/lotr/sword.avif",
+            "audio": null,
+            "is_audio": false
+        }
+    ]
+}

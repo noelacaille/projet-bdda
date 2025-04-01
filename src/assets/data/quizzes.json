@@ -1,0 +1,90 @@
+[
+	{
+		"id": "disney",
+		"title": "Disney",
+		"description": "Test your knowledge of Disney classics.",
+		"image": "images/quizzes/disney.png",
+		"background": "background/disney.jpg",
+		"model": "models/disney.glb",
+		"scale": 0.3,
+		"height": -0.3,
+		"color": "#FFEDD5"
+	},
+	{
+		"id": "starwars",
+		"title": "Star Wars",
+		"description": "Explore a galaxy far, far away with this Star Wars quiz.",
+		"image": "images/quizzes/starwars.png",
+		"background": "background/starwars.jpg",
+		"model": "models/starwars.glb",
+		"scale": 0.1,
+		"height": 0,
+		"color": "#F6F6FF"
+	},
+	{
+		"id": "marvel",
+		"title": "Marvel",
+		"description": "Are you a true fan of Marvel superheroes?",
+		"image": "images/quizzes/marvel.png",
+		"background": "background/marvel.jpg",
+		"model": "models/marvel.glb",
+		"scale": 1.5,
+		"height": -2,
+		"color": "#D5E9FF"
+	},
+	{
+		"id": "harrypotter",
+		"title": "Harry Potter",
+		"description": "Return to Hogwarts and test your knowledge.",
+		"image": "images/quizzes/harrypotter.png",
+		"background": "background/harrypotter.jpg",
+		"model": "models/harrypotter.glb",
+		"scale": 1.2,
+		"height": -2.5,
+		"color": "#F9E6FF"
+	},
+	{
+		"id": "lotr",
+		"title": "The Lord of the Rings",
+		"description": "Journey to Middle-earth with this quiz.",
+		"image": "images/quizzes/lotr.webp",
+		"background": "background/lotr.jpg",
+		"model": "models/lotr.glb",
+		"scale": 0.035,
+		"height": -2,
+		"color": "#E5FFD5"
+	},
+	{
+		"id": "ghibli",
+		"title": "Studio Ghibli",
+		"description": "Step into the magical world of Studio Ghibli.",
+		"image": "images/quizzes/ghibli.png",
+		"background": "background/ghibli.jpg",
+		"model": "models/ghibli.glb",
+		"scale": 0.01,
+		"height": -1.5,
+		"color": "#D5FFE2"
+	},
+	{
+		"id": "pirates",
+		"title": "Pirates of the Caribbean",
+		"description": "Sail the seas with Captain Jack Sparrow.",
+		"image": "images/quizzes/pirates.png",
+		"background": "background/pirates.jpg",
+		"model": "models/pirates.glb",
+		"scale": 0.3,
+		"height": -2,
+		"color": "#FFF3E1"
+	},
+	{
+		"id": "jurassicpark",
+		"title": "Jurassic Park",
+		"description": "Dive into the world of dinosaurs and chaos theory.",
+		"image": "images/quizzes/jurassicpark.png",
+		"background": "background/jurassicpark.jpg",
+		"model": "models/jurassicpark.glb",
+		"scale": 0.4,
+		"height": -1,
+		"color": "#FFF6D5"
+	}
+]

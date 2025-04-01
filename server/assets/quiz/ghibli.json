@@ -1,0 +1,134 @@
+{
+	"questions": [
+		{
+			"question": "What is the name of the giant furry creature in 'My Neighbor Totoro'?",
+			"answers": [
+				"Totoro",
+				"Catbus",
+				"Haku",
+				"Moro"
+			],
+			"good_answer": 0,
+			"picture": "/images/ghibli/totoro.jpg",
+			"audio": null,
+			"is_audio": false
+		},
+		{
+			"question": "What is the name of the young witch in 'Kiki's Delivery Service'?",
+			"answers": [
+				"Chihiro",
+				"Satsuki",
+				"Kiki",
+				"Nausicaä"
+			],
+			"good_answer": 2,
+			"picture": "/images/ghibli/kiki.jpg",
+			"audio": null,
+			"is_audio": false
+		},
+		{
+			"question": "In 'Spirited Away', what is the name of the bathhouse's owner?",
+			"answers": [
+				"Yubaba",
+				"Zeniba",
+				"Kamaji",
+				"No-Face"
+			],
+			"good_answer": 0,
+			"picture": "/images/ghibli/bathhouse.jpg",
+			"audio": null,
+            "is_audio": false
+		},
+		{
+			"question": "What is the name of the cursed prince in 'Princess Mononoke'?",
+			"answers": [
+				"Haku",
+				"Ashitaka",
+				"Howl",
+				"Sosuke"
+			],
+			"good_answer": 1,
+			"picture": "/images/ghibli/prince.jpg",
+			"audio": null,
+			"is_audio": false
+		},
+		{
+			"question": "In 'Howl's Moving Castle', what is the name of the fire demon?",
+			"answers": [
+				"Calcifer",
+				"Turnip Head",
+				"Haku",
+				"Moro"
+			],
+			"good_answer": 0,
+			"picture": "/images/ghibli/firedemon.webp",
+			"audio": null,
+			"is_audio": false
+		},
+		{
+			"question": "What is the name of the valley where Nausicaä lives in 'Nausicaä of the Valley of the Wind'?",
+			"answers": [
+				"Valley of the Wind",
+				"Iron Town",
+				"Moon Valley",
+				"Green Vale"
+			],
+			"good_answer": 0,
+			"picture": "/images/ghibli/valley.jpg",
+			"audio": null,
+			"is_audio": false
+		},
+		{
+			"question": "In 'Ponyo', what kind of creature is Ponyo at the start of the film?",
+			"answers": [
+				"Goldfish",
+				"Cat",
+				"Fox",
+				"Bird"
+			],
+			"good_answer": 0,
+			"picture": "/images/ghibli/ponyo.jpg",
+			"audio": null,
+            "is_audio": false
+		},
+		{
+			"question": "What is the name of the cat in 'The Cat Returns'?",
+			"answers": [
+				"Jiji",
+				"Haru",
+				"Baron",
+				"Muta"
+			],
+			"good_answer": 2,
+			"picture": "/images/ghibli/cat.webp",
+			"audio": null,
+			"is_audio": false
+		},
+		{
+			"question": "What is the name of the floating city in 'Castle in the Sky'?",
+			"answers": [
+				"Laputa",
+				"Howl's Castle",
+				"Valley of the Wind",
+				"Iron Town"
+			],
+			"good_answer": 0,
+			"picture": "/images/ghibli/city.webp",
+			"audio": null,
+			"is_audio": false
+		},
+		{
+			"question": "In 'My Neighbor Totoro', what are the small, black, dust-like creatures called?",
+			"answers": [
+				"Soot Sprites",
+				"No-Face",
+				"Forest Spirits",
+				"Kodama"
+			],
+			"good_answer": 0,
+			"picture": "/images/ghibli/sprites.jpg",
+			"audio": null,
+			"is_audio": false
+		}
+	]
+}

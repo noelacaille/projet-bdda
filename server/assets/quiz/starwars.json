@@ -1,0 +1,134 @@
+{
+    "questions": [
+        {
+            "question": "What is the name of Han Solo's ship?",
+            "answers": [
+                "Millennium Falcon",
+                "X-Wing",
+                "TIE Fighter",
+                "Slave I"
+            ],
+            "good_answer": 0,
+            "picture": "/images/starwars/ship.jpg",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "Who is Luke Skywalker's father?",
+            "answers": [
+                "Obi-Wan Kenobi",
+                "Anakin Skywalker",
+                "Yoda",
+                "Darth Maul"
+            ],
+            "good_answer": 1,
+            "picture": "/images/starwars/father.webp",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What is the name of the planet where Anakin Skywalker was born?",
+            "answers": [
+                "Tatooine",
+                "Naboo",
+                "Coruscant",
+                "Mustafar"
+            ],
+            "good_answer": 0,
+            "picture": "/images/starwars/planet.webp",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What is the name of the Jedi Master who trained Luke Skywalker?",
+            "answers": [
+                "Mace Windu",
+                "Obi-Wan Kenobi",
+                "Yoda",
+                "Qui-Gon Jinn"
+            ],
+            "good_answer": 2,
+            "picture": "/images/starwars/master.webp",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What color is Mace Windu's lightsaber?",
+            "answers": [
+                "Green",
+                "Blue",
+                "Red",
+                "Purple"
+            ],
+            "good_answer": 3,
+            "picture": "/images/starwars/lightsaber.jpg",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What is the name of the bounty hunter who captured Han Solo in 'The Empire Strikes Back'?",
+            "answers": [
+                "Boba Fett",
+                "Jango Fett",
+                "Cad Bane",
+                "Greedo"
+            ],
+            "good_answer": 0,
+            "picture": "/images/starwars/bountyhunter.jpg",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What is the name of the small droid who carries the Death Star plans?",
+            "answers": [
+                "BB-8",
+                "R2-D2",
+                "C-3PO",
+                "K-2SO"
+            ],
+            "good_answer": 1,
+            "picture": "/images/starwars/droid.webp",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "Who is the supreme leader of the Galactic Empire?",
+            "answers": [
+                "Darth Vader",
+                "Grand Moff Tarkin",
+                "Palpatine",
+                "Kylo Ren"
+            ],
+            "good_answer": 2,
+            "picture": "/images/starwars/leader.webp",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What is the name of the giant slug-like alien who enslaves Princess Leia?",
+            "answers": [
+                "Greedo",
+                "Jabba the Hutt",
+                "Watto",
+                "Nute Gunray"
+            ],
+            "good_answer": 1,
+            "picture": "/images/starwars/alien.jpg",
+            "audio": null,
+            "is_audio": false
+        },
+        {
+            "question": "What is the name of the weapon used by Jedi and Sith?",
+            "answers": [
+                "Blaster",
+                "Lightsaber",
+                "Force Pike",
+                "Bowcaster"
+            ],
+            "good_answer": 1,
+            "picture": "/images/starwars/weapon.jpg",
+            "audio": null,
+            "is_audio": false
+        }
+    ]
+}

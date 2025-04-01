@@ -1,0 +1,134 @@
+{
+	"questions": [
+		{
+			"question": "What is the name of Captain Jack Sparrow's ship?",
+			"answers": [
+				"The Black Pearl",
+				"The Flying Dutchman",
+				"The Queen Anne's Revenge",
+				"The Dauntless"
+			],
+			"good_answer": 0,
+			"picture": "/images/pirates/ship.webp",
+			"audio": null,
+			"is_audio": false
+		},
+		{
+			"question": "What is the name of the cursed pirate captain in the first movie?",
+			"answers": [
+				"Davy Jones",
+				"Hector Barbossa",
+				"Blackbeard",
+				"Will Turner"
+			],
+			"good_answer": 1,
+			"picture": "/images/pirates/captain.jpg",
+			"audio": null,
+			"is_audio": false
+		},
+		{
+			"question": "Who is the guardian of the Dead Man's Chest?",
+			"answers": [
+				"Davy Jones",
+				"Calypso",
+				"Jack Sparrow",
+				"Hector Barbossa"
+			],
+			"good_answer": 0,
+			"picture": "/images/pirates/chest.jpg",
+			"audio": null,
+            "is_audio": false
+		},
+		{
+			"question": "What is the name of Will Turner's father?",
+			"answers": [
+				"Bootstrap Bill",
+				"Hector Barbossa",
+				"Edward Teach",
+				"Davy Jones"
+			],
+			"good_answer": 0,
+			"picture": "/images/pirates/father.webp",
+			"audio": null,
+			"is_audio": false
+		},
+		{
+			"question": "What does the compass owned by Jack Sparrow point to?",
+			"answers": [
+				"The nearest treasure",
+				"The location of the Black Pearl",
+				"What the holder desires most",
+				"The Isle de Muerta"
+			],
+			"good_answer": 2,
+			"picture": "/images/pirates/compass.jpg",
+			"audio": null,
+			"is_audio": false
+		},
+		{
+			"question": "What is the name of the goddess who is freed in 'At World's End'?",
+			"answers": [
+				"Calypso",
+				"Tia Dalma",
+				"Syrena",
+				"Elizabeth"
+			],
+			"good_answer": 0,
+			"picture": "/images/pirates/goddess.jpg",
+			"audio": null,
+            "is_audio": false
+		},
+		{
+			"question": "What is the name of Blackbeard's ship?",
+			"answers": [
+				"The Black Pearl",
+				"The Queen Anne's Revenge",
+				"The Flying Dutchman",
+				"The Empress"
+			],
+			"good_answer": 1,
+			"picture": "/images/pirates/blackbeard.jpg",
+			"audio": null,
+			"is_audio": false
+		},
+		{
+			"question": "What is the curse of the Aztec gold in the first movie?",
+			"answers": [
+				"It turns people into skeletons in moonlight",
+				"It makes people unable to die",
+				"It gives eternal life",
+				"It makes people lose their memories"
+			],
+			"good_answer": 0,
+			"picture": "/images/pirates/curse.webp",
+			"audio": null,
+			"is_audio": false
+		},
+		{
+			"question": "Who plays Captain Jack Sparrow?",
+			"answers": [
+				"Orlando Bloom",
+				"Geoffrey Rush",
+				"Johnny Depp",
+				"Keira Knightley"
+			],
+			"good_answer": 2,
+			"picture": "/images/pirates/actor.webp",
+			"audio": null,
+			"is_audio": false
+		},
+		{
+			"question": "What is the name of the legendary sea creature controlled by Davy Jones?",
+			"answers": [
+				"The Leviathan",
+				"The Kraken",
+				"The Hydra",
+				"The Serpent"
+			],
+			"good_answer": 1,
+			"picture": "/images/pirates/creature.avif",
+			"audio": null,
+			"is_audio": false
+		}
+	]
+}
