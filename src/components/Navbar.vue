@@ -3,9 +3,6 @@
 		<div class="navLink">
 			<router-link to="/home">Home</router-link>
 		</div>
-		<div class="navLink">
-			<router-link to="/leaderboard">Leaderboard</router-link>
-		</div>
 
 		<!-- Profil à droite -->
 		<div class="profile" @click="toggleProfileMenu">

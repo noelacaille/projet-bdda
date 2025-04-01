@@ -1,29 +1,34 @@
 <template>
     <div id="about-page">
         <div class="about-project">
-            <h1>About CineQuizz</h1>
+            <h1>A propos de Play'n'trade</h1>
             <p>
-                CineQuizz is a cinema quiz platform created to bring movie lovers together. With fun and challenging
-                quizzes, our goal is to celebrate the world of cinema in an engaging way.
+                Play'n'trade est une plateforme pour les passionnées de jeux de société. Grace à son marketplace et son sustème d'échange, il permet de faire avancer la communauté des joueurs de jeux de société.
             </p>
         </div>
         <div class="team">
-            <h2>Meet the developers</h2>
+            <h2>Les développeurs</h2>
             <div class="developers-row">
                 <div class="developer">
                     <img src="@/assets/img/about/clement.jpg"/>
                     <h3>CLÉMENT</h3>
-                    <p>Specializes in building and optimizing CineQuizz's core functionalities.</p>
+                    <p>ecrire un truc ici</p>
                 </div>
                 <div class="developer">
                     <img src="@/assets/img/about/noe.jpg"/>
                     <h3>NOÉ</h3>
-                    <p>Focuses on user interface design and creating a smooth experience.</p>
+                    <p>ecrire un truc ici</p>
                 </div>
+                <div class="developer">
+                    <img src="@/assets/img/about/lucas.jpg"/>
+                    <h3>LUCAS</h3>
+                    <p>ecrire un truc ici</p>
+                </div>
+
                 <div class="developer">
                     <img src="@/assets/img/about/bily.jpg"/>
                     <h3 ref="billyName">BILLY</h3>
-                    <p>Brings creativity to the platform with innovative ideas and features.</p>
+                    <p>ecrire un truc ici</p>
                 </div>
             </div>
         </div>

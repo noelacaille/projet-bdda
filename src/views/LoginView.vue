@@ -3,7 +3,7 @@
 		<div class="auth-content">
 			<a>
 				<!-- Logo dans public -->
-				<img src="../assets/img/logo.png" alt="Logo" class="app-logo" style="width: 300px;"/>
+				<img src="../assets/img/logo-no-bg.png" alt="Logo" class="app-logo" style="width: 300px;"/>
 			</a>
 
 			<h1 class="auth-title">{{ isLoginMode ? 'Welcome back !' : 'Join us !' }}</h1>
