@@ -376,7 +376,7 @@ button {
 }
 
 button:hover {
-	background: var(--pnt-black);
+	background: var(--pnt-button-hover);
 	color: var(--pnt-white);
 	transform: translateY(-2px);
 }

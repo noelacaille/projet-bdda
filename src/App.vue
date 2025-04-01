@@ -28,7 +28,7 @@ const isLoginPage = computed(() => route.path === '/login');
 
 :root {
 	--pnt-black: rgb(30, 30, 30);
-	--pnt-white: rgb(254, 255, 246);
+	--pnt-white: rgb(253, 241, 240);
 	
 	--pnt-button: rgb(218, 140, 112);
 	--pnt-button-hover: rgb(227, 123, 85);
