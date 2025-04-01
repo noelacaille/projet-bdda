@@ -36,12 +36,6 @@ const router = createRouter({
 			meta: { requiresAuth: true }
 		},
 		{
-			path: '/leaderboard',
-			name: 'LeaderboardView',
-			component: () => import('./views/LeaderboardView.vue'),
-			meta: { requiresAuth: true }
-		},
-		{
 			path: '/about',
 			name: 'AboutView',
 			component: () => import('./views/AboutView.vue')
