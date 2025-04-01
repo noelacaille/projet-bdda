@@ -83,11 +83,11 @@ export default {
 .navbar {
 	width: 100%;
 	height: var(--navbar-height);
-	background-color: var(--cinequizz-black);
+	background-color: var(--pnt-black);
 	display: flex;
 	flex-direction: row;
 	padding: 8px;
-	color: var(--cinequizz-white);
+	color: var(--pnt-white);
 	position: sticky;
 	top: 0;
 	z-index: 100;
@@ -104,13 +104,13 @@ export default {
 }
 
 .navbar a {
-	color: var(--cinequizz-white);
+	color: var(--pnt-white);
 	text-decoration: none;
 	font-size: 18px;
 }
 
 .navbar a:hover {
-	color: var(--cinequizz-red);
+	color: var(--pnt-button);
 }
 
 .profile {
@@ -124,20 +124,20 @@ export default {
 
 .profile-icon {
 	font-size: 24px;
-	color: var(--cinequizz-white);
+	color: var(--pnt-white);
 	margin-right: 8px;
 }
 
 .username {
 	font-size: 18px;
-	color: var(--cinequizz-white);
+	color: var(--pnt-white);
 }
 
 .profile-menu {
 	position: absolute;
 	top: 40px;
 	right: -10px;
-	background-color: var(--cinequizz-black);
+	background-color: var(--pnt-black);
 	padding: 10px;
 	border-radius: 8px;
 	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
@@ -151,13 +151,13 @@ export default {
 }
 
 .profile-menu li {
-	color: var(--cinequizz-white);
+	color: var(--pnt-white);
 	padding: 8px;
 	cursor: pointer;
 }
 
 .profile-menu li:hover {
-	background-color: var(--cinequizz-red);
+	background-color: var(--pnt-button);
 }
 
 .profile-icon {

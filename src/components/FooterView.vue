@@ -28,7 +28,7 @@ export default {
 
 <style scoped>
 #footer {
-    background-color: var(--cinequizz-black);
+    background-color: var(--pnt-black);
     color: white;
     padding: 20px 10px;
     text-align: center;
@@ -52,7 +52,7 @@ export default {
 }
 
 .about-link {
-    color: var(--cinequizz-primary);
+    color: var(--pnt-primary);
     text-decoration: none;
     font-weight: bold;
 }

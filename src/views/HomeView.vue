@@ -4,94 +4,8 @@
 			<h1>Welcome to <span class="app-title">CineQuizz</span></h1>
 			<p>Test your knowledge about your favorite movies!</p>
 		</div>
-
-		<div class="top-buttons">
-			<div class="button-card" @click="openWheelPopup">
-				<img src="/images/spinwheel.png" alt="Spin the Wheel" />
-				<p>Spin the Wheel</p>
-			</div>
-			<div class="button-card" @click="superQuiz">
-				<img src="/images/superquiz.png" alt="Super Quiz" />
-				<p>Super Quiz</p>
-				<p class="quiz-score quiz-score-small"
-					v-if="quizzes.find(q => q.id === 'superquiz')?.bestScore !== undefined">
-					{{ formatBestScore(quizzes.find(q => q.id === 'superquiz')?.bestScore, 'superquiz') }}
-				</p>
-			</div>
-			<div class="button-card" @click="streakQuiz">
-				<img src="/images/streakquiz.png" alt="Streak Quiz" />
-				<p>Streak Quiz</p>
-				<p class="quiz-score quiz-score-small"
-					v-if="quizzes.find(q => q.id === 'streakquiz')?.bestScore !== undefined">
-					{{ formatBestScore(quizzes.find(q => q.id === 'streakquiz')?.bestScore, 'streakquiz') }}
-				</p>
-			</div>
-			<div class="button-card" @click="flashQuiz">
-				<img src="/images/flashquiz.png" alt="Flash Quiz" />
-				<p>Flash Quiz</p>
-				<p class="quiz-score quiz-score-small"
-					v-if="quizzes.find(q => q.id === 'flashquiz')?.bestScore !== undefined">
-					{{ formatBestScore(quizzes.find(q => q.id === 'flashquiz')?.bestScore, 'flashquiz') }}
-				</p>
-			</div>
-		</div>
-
-		<div class="quiz-list favorites-list">
-			<h2>Favorite Quizzes</h2>
-			<p v-if="favoriteQuizzes.length === 0" class="no-favorites">No favorite quizzes yet.</p>
-			<div v-else class="quiz-grid">
-				<div v-for="quiz in favoriteQuizzes.filter(q => !['superquiz', 'streakquiz', 'flashquiz'].includes(q.id))"
-					:key="quiz.id" class="quiz-card">
-					<div class="favorite-icon" @click="toggleFavorite(quiz)" :class="{ active: isFavorite(quiz.id) }">
-						<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="favorite-star">
-							<path
-								d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-						</svg>
-					</div>
-					<div class="quiz-image">
-						<img :src="quiz.image" />
-					</div>
-					<h3>{{ quiz.title }}</h3>
-					<p>{{ quiz.description }}</p>
-					<p class="quiz-score">
-						{{ quiz.bestScore === 'Never attempted' ? quiz.bestScore : `Best score : ${quiz.bestScore} / 10`
-						}}
-					</p>
-					<router-link
-						:to="'/quiz?name=' + quiz.id + '&title=' + quiz.title + '&model=' + quiz.model + '&scale=' + quiz.scale + '&height=' + quiz.height + '&bg=' + quiz.background"
-						class="start-button">Start</router-link>
-				</div>
-			</div>
-		</div>
-
-		<div class="quiz-list">
-			<h2>All Quizzes</h2>
-			<div class="quiz-grid">
-				<div v-for="quiz in quizzes.filter(q => !['superquiz', 'streakquiz', 'flashquiz'].includes(q.id))"
-					:key="quiz.id" class="quiz-card">
-					<div class="favorite-icon" @click="toggleFavorite(quiz)" :class="{ active: isFavorite(quiz.id) }">
-						<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="favorite-star">
-							<path
-								d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
-						</svg>
-					</div>
-					<div class="quiz-image">
-						<img :src="quiz.image" />
-					</div>
-					<h3>{{ quiz.title }}</h3>
-					<p>{{ quiz.description }}</p>
-					<p class="quiz-score">
-						{{ quiz.bestScore === 'Never attempted' ? quiz.bestScore : `Best score : ${quiz.bestScore} / 10`
-						}}
-					</p>
-					<router-link
-						:to="'/quiz?name=' + quiz.id + '&title=' + quiz.title + '&model=' + quiz.model + '&scale=' + quiz.scale + '&height=' + quiz.height + '&bg=' + quiz.background"
-						class="start-button">Start</router-link>
-				</div>
-			</div>
-		</div>
 	</div>
-	<Wheel v-if="wheelVisible" :isVisible="wheelVisible" :quizzes="quizzes" @close="closeWheelPopup" />
+	
 </template>
 
 <script>
@@ -261,7 +175,7 @@ export default {
 
 <style scoped>
 .app-title {
-	color: var(--cinequizz-red);
+	color: var(--pnt-button);
 }
 
 .home {

@@ -187,7 +187,7 @@ export default {
 <style scoped>
 .app-title {
 	font-size: 2.5rem;
-	color: var(--cinequizz-red);
+	color: var(--pnt-button);
 }
 
 .auth-container {
@@ -213,7 +213,7 @@ export default {
 .auth-content {
 	position: relative;
 	z-index: 2;
-	background: rgba(0, 0, 0, 0.85);
+	background: rgb(253, 241, 240);
 	padding: 40px;
 	border-radius: 10px;
 	width: 100%;
@@ -224,13 +224,13 @@ export default {
 .auth-title {
 	font-size: 24px;
 	margin-bottom: 20px;
-	color: white;
+	color: black;
 }
 
 .auth-form {
 	display: flex;
 	flex-direction: column;
-	color: white;
+	color: black;
 }
 
 .input-group {
@@ -254,7 +254,7 @@ export default {
 
 .auth-button {
 	margin: 10px 0;
-	background-color: var(--cinequizz-red);
+	background-color: var(--pnt-button);
 	color: white;
 	border: none;
 	padding: 10px;
@@ -270,11 +270,11 @@ export default {
 }
 
 .auth-button:hover:not(:disabled) {
-	background-color: #ff3b3b;
+	background-color: var(--pnt-button-hover);
 }
 
 .error-message {
-	color: var(--cinequizz-red);
+	color: var(--pnt-button);
 	margin-top: 10px;
 }
 
@@ -283,7 +283,7 @@ export default {
 }
 
 .toggle-mode a {
-	color: var(--cinequizz-red);
+	color: var(--pnt-button);
 	text-decoration: underline;
 	cursor: pointer;
 }

@@ -482,7 +482,7 @@ export default {
 
 h1 {
     text-align: center;
-    color: var(--cinequizz-red);
+    color: var(--pnt-button);
 }
 
 .loading,
@@ -535,7 +535,7 @@ h1 {
 
 .answer-btn {
     padding: 15px 25px;
-    background-color: var(--cinequizz-red);
+    background-color: var(--pnt-button);
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -586,7 +586,7 @@ h1 {
 .next-btn {
     margin-top: 20px;
     padding: 15px 25px;
-    background-color: var(--cinequizz-black);
+    background-color: var(--pnt-black);
     color: #fff;
     font-size: large;
     border: none;
@@ -655,7 +655,7 @@ h1 {
 .return-btn {
     margin-top: 20px;
     padding: 15px 25px;
-    background-color: var(--cinequizz-black);
+    background-color: var(--pnt-black);
     color: #fff;
     font-size: large;
     border: none;

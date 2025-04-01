@@ -51,7 +51,7 @@ export default {
     max-width: 900px;
     margin: 0 auto;
     padding: 20px;
-    color: var(--cinequizz-black);
+    color: var(--pnt-black);
     text-align: center;
 }
 
@@ -62,7 +62,7 @@ export default {
 .about-project h1 {
     font-size: 28px;
     margin-bottom: 15px;
-    color: var(--cinequizz-primary);
+    color: var(--pnt-primary);
 }
 
 .about-project p {
@@ -74,7 +74,7 @@ export default {
 .team h2 {
     font-size: 24px;
     margin-bottom: 20px;
-    color: var(--cinequizz-primary);
+    color: var(--pnt-primary);
 }
 
 .developers-row {

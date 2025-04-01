@@ -321,24 +321,24 @@ export default {
 	padding: 20px;
 	margin-bottom: 30px;
 	margin-top: 30px;
-	background-color: var(--cinequizz-white);
-	color: var(--cinequizz-black);
-	border: 1px solid var(--cinequizz-black);
+	background-color: var(--pnt-white);
+	color: var(--pnt-black);
+	border: 1px solid var(--pnt-black);
 	border-radius: 10px;
 	margin: 30px auto;
 }
 
 h1,
 h2 {
-	color: var(--cinequizz-red);
+	color: var(--pnt-button);
 }
 
 .black-box {
 	margin-bottom: 30px;
 	padding: 15px;
-	border: 2px solid var(--cinequizz-black);
+	border: 2px solid var(--pnt-black);
 	border-radius: 8px;
-	background: var(--cinequizz-white);
+	background: var(--pnt-white);
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
@@ -346,7 +346,7 @@ label {
 	display: block;
 	margin-bottom: 5px;
 	font-weight: bold;
-	color: var(--cinequizz-black);
+	color: var(--pnt-black);
 }
 
 input,
@@ -355,7 +355,7 @@ button {
 	width: 100%;
 	margin-bottom: 15px;
 	padding: 10px;
-	border: 1px solid var(--cinequizz-black);
+	border: 1px solid var(--pnt-black);
 	border-radius: 5px;
 	font-size: 14px;
 }
@@ -363,21 +363,21 @@ button {
 input:focus,
 button:focus {
 	outline: none;
-	border-color: var(--cinequizz-red);
-	box-shadow: 0 0 5px var(--cinequizz-red);
+	border-color: var(--pnt-button);
+	box-shadow: 0 0 5px var(--pnt-button);
 }
 
 button {
-	background: var(--cinequizz-red);
-	color: var(--cinequizz-white);
+	background: var(--pnt-button);
+	color: var(--pnt-white);
 	border: none;
 	cursor: pointer;
 	transition: background-color 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
-	background: var(--cinequizz-black);
-	color: var(--cinequizz-white);
+	background: var(--pnt-black);
+	color: var(--pnt-white);
 	transform: translateY(-2px);
 }
 
@@ -401,7 +401,7 @@ button:disabled,
 
 .info p {
 	margin: 5px 0;
-	color: var(--cinequizz-black);
+	color: var(--pnt-black);
 }
 
 .password-group {
@@ -507,9 +507,9 @@ button:disabled,
 .username-change {
 	margin-bottom: 30px;
 	padding: 15px;
-	border: 2px solid var(--cinequizz-black);
+	border: 2px solid var(--pnt-black);
 	border-radius: 8px;
-	background: var(--cinequizz-white);
+	background: var(--pnt-white);
 	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 

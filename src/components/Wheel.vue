@@ -272,7 +272,7 @@ export default {
 }
 
 h1 {
-	color: var(--cinequizz-red);
+	color: var(--pnt-button);
 	font-style: bold;
 }
 
