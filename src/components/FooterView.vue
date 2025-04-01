@@ -3,14 +3,13 @@
         <div class="footer-content">
             <div class="about-section">
                 <p>
-                    CineQuizz is a cinema quiz platform where movie enthusiasts can test their knowledge and learn more
-                    about their favorite films.
+                    Play'n'trade est une plateforme pour les passionnées de jeux de société. Grace à son marketplace et son système d'échange, il permet de faire avancer la communauté des joueurs de jeux de société..
                 </p>
-                <a href="/about" class="about-link">Learn More</a>
+                <a href="/about" class="about-link">A propos de Play'n'trade</a>
             </div>
         </div>
         <div class="watermark">
-            © 2024 CineQuizz. All rights reserved.
+            © 2025 Play'n'trade. Tous droits réversés.
         </div>
     </div>
 </template>
@@ -19,9 +18,6 @@
 export default {
     name: 'FooterView',
     computed: {
-        isQuizPage() {
-            return this.$route.path === '/quiz';
-        },
     },
 };
 </script>

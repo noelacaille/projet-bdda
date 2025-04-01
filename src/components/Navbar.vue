@@ -14,8 +14,8 @@
 			<!-- Menu déroulant -->
 			<div v-if="showProfileMenu" class="profile-menu" ref="profileMenu">
 				<ul>
-					<li v-if="isAdmin" @click="adminPanel">ADMIN PANEL</li>
-					<li @click="editProfile">Settings</li>
+					<li v-if="isAdmin" @click="adminPanel">PANEL ADMIN</li>
+					<li @click="editProfile">Paramètres</li>
 					<li @click="logout">Logout</li>
 				</ul>
 			</div>

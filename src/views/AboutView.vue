@@ -3,7 +3,7 @@
         <div class="about-project">
             <h1>A propos de Play'n'trade</h1>
             <p>
-                Play'n'trade est une plateforme pour les passionnées de jeux de société. Grace à son marketplace et son sustème d'échange, il permet de faire avancer la communauté des joueurs de jeux de société.
+                Play'n'trade est une plateforme pour les passionnées de jeux de société. Grace à son marketplace et son système d'échange, il permet de faire avancer la communauté des joueurs de jeux de société.
             </p>
         </div>
         <div class="team">
