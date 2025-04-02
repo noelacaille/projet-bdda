@@ -1,3 +1,7 @@
+<script setup>
+import TinderBoardgames from './components/TinderView.vue';
+</script>
+
 <template>
 	<div class="home">
 		<div class="hero">
@@ -5,7 +9,7 @@
 			<p>Test your knowledge about your favorite movies!</p>
 		</div>
 	</div>
-	
+	<TinderBoardgames />
 </template>
 
 <script>
