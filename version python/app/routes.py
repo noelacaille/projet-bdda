@@ -20,7 +20,7 @@ def init_routes(app):
             if user and bcrypt.check_password_hash(user[2], password_input):
                 user_obj = User(user[0], user[1], user[2])
                 login_user(user_obj)
-                return redirect(url_for('dashboard'))
+                return redirect(url_for('home'))
             else:
                 flash('Invalid credentials', 'danger')
         return render_template('login.html')
@@ -38,10 +38,10 @@ def init_routes(app):
             return redirect(url_for('login'))
         return render_template('signup.html')
 
-    @app.route('/dashboard')
+    @app.route('/home')
     @login_required
-    def dashboard():
-        return f'Hello {current_user.username}, you are logged in!'
+    def home():
+        return render_template('home.html')
 
     @app.route('/logout')
     @login_required
