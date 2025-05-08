@@ -32,11 +32,20 @@ def initialize_database():
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS games (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            title VARCHAR(100) NOT NULL,
+            id INT PRIMARY KEY,  -- correspond à l'id unique du jeu
             description TEXT,
-            image_url VARCHAR(255)
-        )
+            title TEXT,
+            year_published INT,
+            min_players INT,
+            max_players INT,
+            playing_time INT,
+            min_age INT,
+            category TEXT,
+            mechanic TEXT,
+            designer TEXT,
+            publisher TEXT
+        );
+
     """)
 
     print("[DB INIT] Vérification de l'existence de l'admin...")
