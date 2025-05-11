@@ -27,6 +27,10 @@ def create_app():
     bcrypt.init_app(app)
     login_manager.init_app(app)
 
+    login_manager.login_view = 'login'
+    login_manager.login_message = "Veuillez vous connecter pour accéder à cette page."
+    login_manager.login_message_category = "info"
+
     with app.app_context():
         conn = mysql.connection
         cursor = conn.cursor()

@@ -31,6 +31,19 @@ def initialize_database():
     """)
 
     cursor.execute("""
+        CREATE TABLE IF NOT EXISTS player_games (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id INT NOT NULL,
+            game_id INT NOT NULL,
+            game_condition ENUM('neuf', 'très bon état', 'bon état', 'acceptable') NOT NULL,
+            city VARCHAR(100) NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users(id),
+            FOREIGN KEY (game_id) REFERENCES games(id)
+        );
+
+    """)
+
+    cursor.execute("""
         CREATE TABLE IF NOT EXISTS games (
             id INT PRIMARY KEY,  -- correspond à l'id unique du jeu
             description TEXT,

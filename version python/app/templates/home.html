@@ -1,4 +1,32 @@
 {% extends "base.html" %}
 {% block content %}
-<p>This is the home page</p>
+  <p>Bienvenue sur Play'n'Trade</p>
+
+  <button onclick="document.getElementById('exchange-form').style.display='block'">Échanger mon jeu</button>
+
+  <div id="exchange-form" style="display:none; margin-top:20px;">
+    <form method="POST" action="{{ url_for('exchange_game') }}">
+        <label for="game_title">Nom du jeu :</label>
+        <input list="games" name="game_title" required>
+        <datalist id="games">
+            {% for game in games %}
+            <option value="{{ game[1] }}"></option>
+            {% endfor %}
+        </datalist><br><br>
+
+        <label for="condition">État du jeu :</label>
+        <select name="condition" required>
+            <option>neuf</option>
+            <option>très bon état</option>
+            <option>bon état</option>
+            <option>acceptable</option>
+        </select><br><br>
+
+        <label for="city">Ville :</label>
+        <input type="text" name="city" required><br><br>
+
+        <input type="submit" value="Ajouter">
+    </form>
+
+  </div>
 {% endblock %}
