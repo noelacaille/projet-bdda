@@ -73,6 +73,89 @@ def initialize_database():
 
     """)
 
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS audit_log (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            action VARCHAR(50),
+            username VARCHAR(50),
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+
+    cursor.execute("DROP PROCEDURE IF EXISTS sp_InsertUser")
+    cursor.execute("""
+        CREATE PROCEDURE sp_InsertUser(
+            IN p_username VARCHAR(50),
+            IN p_password VARCHAR(255),
+            IN p_is_admin BOOLEAN
+        )
+        BEGIN
+            IF NOT EXISTS (SELECT 1 FROM users WHERE username = p_username) THEN
+                INSERT INTO users (username, password, is_admin)
+                VALUES (p_username, p_password, p_is_admin);
+            END IF;
+        END
+    """)
+
+    cursor.execute("DROP PROCEDURE IF EXISTS sp_HandleLike")
+    cursor.execute("""
+        CREATE PROCEDURE sp_HandleLike(
+            IN p_user_id INT,
+            IN p_user_game_id INT,
+            IN p_liked BOOLEAN
+        )
+        BEGIN
+            IF NOT EXISTS (
+                SELECT 1 FROM likes 
+                WHERE user_id = p_user_id AND user_game_id = p_user_game_id
+            ) THEN
+                INSERT INTO likes (user_id, user_game_id, liked)
+                VALUES (p_user_id, p_user_game_id, p_liked);
+            END IF;
+        END
+    """)
+
+    cursor.execute("DROP TRIGGER IF EXISTS tr_AfterUserInsert")
+    cursor.execute("""
+        CREATE TRIGGER tr_AfterUserInsert
+        AFTER INSERT ON users
+        FOR EACH ROW
+        BEGIN
+            INSERT INTO audit_log (action, username)
+            VALUES ('USER_CREATED', NEW.username);
+        END
+    """)
+
+    cursor.execute("DROP TRIGGER IF EXISTS tr_PreventAdminDeletion")
+    cursor.execute("""
+        CREATE TRIGGER tr_PreventAdminDeletion
+        BEFORE DELETE ON users
+        FOR EACH ROW
+        BEGIN
+            IF OLD.username = 'admin' THEN
+                SIGNAL SQLSTATE '45000'
+                SET MESSAGE_TEXT = 'Cannot delete admin account';
+            END IF;
+        END
+    """)
+
+    cursor.execute("DROP VIEW IF EXISTS vw_AvailableGames")
+    cursor.execute("""
+        CREATE OR REPLACE VIEW vw_AvailableGames AS
+        SELECT 
+            ug.id AS user_game_id,
+            g.title AS game_title,
+            u.username AS owner_username,
+            ug.city, 
+            ug.game_condition,
+            l.user_id AS liked_by_user,
+            l.liked AS liked_value
+        FROM user_games ug
+        JOIN games g ON ug.game_id = g.id
+        JOIN users u ON ug.user_id = u.id
+        LEFT JOIN likes l ON ug.id = l.user_game_id;
+    """)
+
     print("[DB INIT] Vérification de l'existence de l'admin...")
     cursor.execute("SELECT id FROM users WHERE username = 'admin'")
     if cursor.fetchone() is None:

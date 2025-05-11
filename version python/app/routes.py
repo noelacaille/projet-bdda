@@ -32,7 +32,7 @@ def init_routes(app):
             password = request.form['password']
             hashed = bcrypt.generate_password_hash(password).decode('utf-8')
             cur = mysql.connection.cursor()
-            cur.execute("INSERT INTO users (username, password) VALUES (%s, %s)", (username, hashed))
+            cur.callproc("sp_InsertUser", (username, hashed, False))  # False pour is_admin
             mysql.connection.commit()
             cur.close()
             return redirect(url_for('login'))
@@ -77,22 +77,13 @@ def init_routes(app):
     @login_required
     def find_game():
         cursor = mysql.connection.cursor()
-        query = """
-            SELECT 
-                ug.id AS user_game_id,
-                g.title AS game_title,
-                u.username AS owner_username,
-                ug.city, ug.game_condition
-            FROM user_games ug
-            JOIN games g ON ug.game_id = g.id
-            JOIN users u ON ug.user_id = u.id
-            LEFT JOIN likes l ON ug.id = l.user_game_id AND l.user_id = %s
-            WHERE ug.user_id != %s
-            AND (l.id IS NULL OR l.liked IS NULL)  -- Le jeu n'a pas encore été liké ou ignoré
-            LIMIT 1;
-
-        """
-        cursor.execute(query, (current_user.id,current_user.id))
+        cursor.execute("""
+            SELECT * FROM vw_AvailableGames
+            WHERE owner_username != %s
+            AND user_game_id NOT IN (
+                SELECT user_game_id FROM likes WHERE user_id = %s
+            );
+        """, (current_user.id, current_user.id))
         game = cursor.fetchall()
         cursor.close()
         if len(game) == 0:
@@ -107,10 +98,7 @@ def init_routes(app):
         action = request.form.get('action')
 
         cursor = mysql.connection.cursor()
-        cursor.execute("""
-            INSERT INTO likes (user_id, user_game_id, liked)
-            VALUES (%s, %s, %s)
-        """, (current_user.id, user_game_id, action == "like"))
+        cursor.callproc("sp_HandleLike", (current_user.id, user_game_id, action == "like"))
         mysql.connection.commit()
         cursor.close()
 
