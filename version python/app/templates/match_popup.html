@@ -1,0 +1,15 @@
+<div class="match-popup">
+    <h3>Choisir un jeu à échanger</h3>
+    <form action="{{ url_for('create_match') }}" method="POST">
+        <input type="hidden" name="like_id" value="{{ like_id }}">
+        
+        {% for game in my_games %}
+        <label>
+            <input type="radio" name="offered_game_id" value="{{ game[0] }}">
+            {{ game[1] }}
+        </label><br>
+        {% endfor %}
+        
+        <button type="submit">Confirmer l'échange</button>
+    </form>
+</div>

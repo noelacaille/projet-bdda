@@ -98,11 +98,43 @@ def init_routes(app):
         action = request.form.get('action')
 
         cursor = mysql.connection.cursor()
-        cursor.callproc("sp_HandleLike", (current_user.id, user_game_id, action == "like"))
-        mysql.connection.commit()
-        cursor.close()
+        try:
+            # 1. Insertion du like
+            cursor.execute("""
+                INSERT INTO likes (user_id, user_game_id, liked)
+                VALUES (%s, %s, %s)
+            """, (current_user.id, user_game_id, action == "like"))
+            like_id = cursor.lastrowid
 
-        return redirect(url_for('find_game'))
+            # 2. Validation IMMÉDIATE
+            mysql.connection.commit()
+
+            if action == "like":
+                # 3. Récupération des jeux de l'utilisateur
+                cursor.execute("""
+                    SELECT ug.id, g.title 
+                    FROM user_games ug
+                    JOIN games g ON ug.game_id = g.id
+                    WHERE ug.user_id = %s
+                """, (current_user.id,))
+                my_games = cursor.fetchall()
+                
+                # 4. Vérification de like_id
+                if not like_id:
+                    raise Exception("Erreur : like_id non généré")
+                
+                return render_template('match_popup.html', 
+                                    like_id=like_id,
+                                    my_games=my_games)
+            else:
+                return redirect(url_for('find_game'))
+
+        except Exception as e:
+            mysql.connection.rollback()
+            flash(f"Erreur : {str(e)}", 'danger')
+            return redirect(url_for('find_game'))
+        finally:
+            cursor.close()
 
     @app.route("/games")
     @login_required
@@ -136,3 +168,27 @@ def init_routes(app):
     def logout():
         logout_user()
         return redirect(url_for('login'))
+    
+    @app.route('/create_match', methods=['POST'])
+    @login_required
+    def create_match():
+        like_id = request.form['like_id']
+        offered_game_id = request.form['offered_game_id']
+
+        try:
+            cursor = mysql.connection.cursor()
+            cursor.execute("""
+                INSERT INTO matches (like_id, offered_game_id)
+                VALUES (%s, %s)
+            """, (like_id, offered_game_id))
+            
+            mysql.connection.commit()
+            flash('Échange proposé avec succès!', 'success')
+        except Exception as e:
+            print(e)
+            mysql.connection.rollback()
+            flash("Erreur lors de la création de l'échange", 'danger')
+        finally:
+            cursor.close()
+        
+        return redirect(url_for('home'))

@@ -83,6 +83,17 @@ def initialize_database():
         )
     """)
 
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS matches (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            like_id INT NOT NULL,
+            offered_game_id INT NOT NULL,
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+            FOREIGN KEY (like_id) REFERENCES likes(id),
+            FOREIGN KEY (offered_game_id) REFERENCES user_games(id)
+        )
+    """)
+
     cursor.execute("DROP PROCEDURE IF EXISTS sp_InsertUser")
     cursor.execute("""
         CREATE PROCEDURE sp_InsertUser(
