@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block content %}
+  <h2>Liste des jeux</h2>
+
+  <form method="get" action="{{ url_for('all_games') }}">
+    <input type="text" name="q" placeholder="Rechercher un jeu" value="{{ search_query }}">
+    <button type="submit">Rechercher</button>
+  </form>
+
+  {% if games %}
+    <div class="games-grid">
+      {% for game in games %}
+        <div class="card">
+          <h3>{{ game[1] }}</h3> <!-- Titre -->
+          {% if game[5] %}
+            <img src="{{ game[5] }}" alt="Image de {{ game[1] }}" loading="lazy"
+                 style="max-width: 200px; height: auto;">
+          {% endif %}
+          <p>Proposé par : {{ game[2] }}</p>
+          <p>Ville : {{ game[3] }}</p>
+          <p>Condition : {{ game[4] }}</p>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <p>Aucun jeu trouvé.</p>
+  {% endif %}
+{% endblock %}

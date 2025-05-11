@@ -34,4 +34,8 @@
     <button type="submit">Trouver un jeu</button>
   </form>
 
+   <form action="{{ url_for('all_games') }}" method="GET" style="margin-top: 20px;">
+    <button type="submit">Liste des jeux</button>
+  </form>
+
 {% endblock %}

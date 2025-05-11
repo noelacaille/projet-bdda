@@ -104,7 +104,32 @@ def init_routes(app):
 
         return redirect(url_for('find_game'))
 
+    @app.route("/games")
+    @login_required
+    def all_games():
+        search_query = request.args.get("q", "").strip()
 
+        cursor = mysql.connection.cursor()
+        if search_query:
+            cursor.execute("""
+                SELECT ug.id, g.title, u.username, ug.city, ug.game_condition, g.thumbnail
+                FROM user_games ug
+                JOIN games g ON ug.game_id = g.id
+                JOIN users u ON ug.user_id = u.id
+                WHERE g.title LIKE %s
+                ORDER BY g.title
+            """, (f"%{search_query}%",))
+        else:
+            cursor.execute("""
+                SELECT ug.id, g.title, u.username, ug.city, ug.game_condition, g.thumbnail
+                FROM user_games ug
+                JOIN games g ON ug.game_id = g.id
+                JOIN users u ON ug.user_id = u.id
+                ORDER BY g.title
+            """)
+
+        games = cursor.fetchall()
+        return render_template("all_games.html", games=games, search_query=search_query)
 
     @app.route('/logout')
     @login_required
