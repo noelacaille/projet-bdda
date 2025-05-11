@@ -5,9 +5,10 @@
   {% if game %}
     <div class="card">
       <h3>{{ game[1] }}</h3> <!-- Nom du jeu -->
-      <p>Proposé par : {{ game[2] }}</p> <!-- Nom du propriétaire -->
-      <p>Ville : {{ game[3] }}</p> <!-- Ville -->
-      <p>Condition du jeu : {{ game[4] }}</p>
+      <p>Proposé par : {{ game[3] }}</p> <!-- Nom du propriétaire -->
+      <p>Ville : {{ game[4] }}</p> <!-- Ville -->
+      <p>Condition du jeu : {{ game[5] }}</p>
+      <img src="{{ game[2] }}" alt="Image du jeu" style="width: 70px; height: auto;">
       <form action="{{ url_for('handle_game_action') }}" method="post">
         <input type="hidden" name="user_game_id" value="{{ game[0] }}">
         <button type="submit" name="action" value="like">❤️ Liker</button>

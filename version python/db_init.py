@@ -68,7 +68,8 @@ def initialize_database():
             category TEXT,
             mechanic TEXT,
             designer TEXT,
-            publisher TEXT
+            publisher TEXT,
+            thumbnail VARCHAR(255)
         );
 
     """)
@@ -145,6 +146,7 @@ def initialize_database():
         SELECT 
             ug.id AS user_game_id,
             g.title AS game_title,
+            g.thumbnail AS game_thumbnail,
             u.username AS owner_username,
             ug.city, 
             ug.game_condition,
