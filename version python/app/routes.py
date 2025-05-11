@@ -79,7 +79,7 @@ def init_routes(app):
         cursor = mysql.connection.cursor()
         cursor.execute("""
             SELECT * FROM vw_AvailableGames
-            WHERE owner_username != %s
+            WHERE owner_id != %s
             AND user_game_id NOT IN (
                 SELECT user_game_id FROM likes WHERE user_id = %s
             );
@@ -148,17 +148,19 @@ def init_routes(app):
                 FROM user_games ug
                 JOIN games g ON ug.game_id = g.id
                 JOIN users u ON ug.user_id = u.id
-                WHERE g.title LIKE %s
+                WHERE g.title LIKE %s AND
+                ug.user_id != %s
                 ORDER BY g.title
-            """, (f"%{search_query}%",))
+            """, (f"%{search_query}%",current_user.id,))
         else:
             cursor.execute("""
                 SELECT ug.id, g.title, u.username, ug.city, ug.game_condition, g.thumbnail
                 FROM user_games ug
                 JOIN games g ON ug.game_id = g.id
                 JOIN users u ON ug.user_id = u.id
+                WHERE ug.user_id != %s
                 ORDER BY g.title
-            """)
+            """, (current_user.id,))
 
         games = cursor.fetchall()
         return render_template("all_games.html", games=games, search_query=search_query)
@@ -192,3 +194,63 @@ def init_routes(app):
             cursor.close()
         
         return redirect(url_for('find_game'))
+    
+    @app.route('/my_likes')
+    @login_required
+    def my_likes():
+        cursor = mysql.connection.cursor()
+        
+        # Récupération des matches avec les détails des jeux
+        cursor.execute("""
+            SELECT 
+                m.created_at,
+                liked_game.title AS liked_title,
+                offered_game.title AS offered_title,
+                owner.username AS owner_username
+            FROM matches m
+            JOIN likes l ON m.like_id = l.id
+            JOIN user_games liked_ug ON l.user_game_id = liked_ug.id
+            JOIN games liked_game ON liked_ug.game_id = liked_game.id
+            JOIN user_games offered_ug ON m.offered_game_id = offered_ug.id
+            JOIN games offered_game ON offered_ug.game_id = offered_game.id
+            JOIN users owner ON liked_ug.user_id = owner.id
+            WHERE l.user_id = %s
+            ORDER BY m.created_at DESC
+        """, (current_user.id,))
+        
+        matches = cursor.fetchall()
+        cursor.close()
+        
+        return render_template('my_likes.html', matches=matches)
+    
+    @app.route('/reciprocal_matches')
+    @login_required
+    def reciprocal_matches():
+        cursor = mysql.connection.cursor()
+        
+        # Requête pour trouver les matchs réciproques
+        cursor.execute("""
+            SELECT 
+                l1.user_game_id AS your_liked_game_id,
+                g1.title AS your_liked_game_title,
+                l2.user_game_id AS their_liked_game_id,
+                g2.title AS their_liked_game_title,
+                u.username AS other_user
+            FROM likes l1
+            JOIN likes l2 
+                ON l1.user_game_id = l2.user_game_id 
+                AND l1.user_id != l2.user_id
+            JOIN user_games ug1 ON l1.user_game_id = ug1.id
+            JOIN user_games ug2 ON l2.user_game_id = ug2.id
+            JOIN games g1 ON ug1.game_id = g1.id
+            JOIN games g2 ON ug2.game_id = g2.id
+            JOIN users u ON l2.user_id = u.id
+            WHERE l1.user_id = %s 
+                AND l2.user_id = ug1.user_id 
+                AND l1.user_id = ug2.user_id
+        """, (current_user.id,))
+        
+        reciprocal = cursor.fetchall()
+        cursor.close()
+        
+        return render_template('reciprocal_matches.html', matches=reciprocal)

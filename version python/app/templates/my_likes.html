@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Mes propositions d'échange</h2>
+    
+    {% if matches %}
+    <div class="table-responsive">
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Jeu liké</th>
+                    <th>Propriétaire</th>
+                    <th>Jeu proposé</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for match in matches %}
+                <tr>
+                    <td>{{ match[0].strftime('%d/%m/%Y %H:%M') }}</td>
+                    <td>{{ match[1] }}</td>
+                    <td>{{ match[3] }}</td>
+                    <td>{{ match[2] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        Vous n'avez pas encore fait de propositions d'échange.
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

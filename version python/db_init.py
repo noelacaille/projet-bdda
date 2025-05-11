@@ -162,7 +162,8 @@ def initialize_database():
             ug.city, 
             ug.game_condition,
             l.user_id AS liked_by_user,
-            l.liked AS liked_value
+            l.liked AS liked_value,
+            u.id AS owner_id
         FROM user_games ug
         JOIN games g ON ug.game_id = g.id
         JOIN users u ON ug.user_id = u.id

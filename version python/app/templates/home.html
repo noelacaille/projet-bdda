@@ -38,4 +38,12 @@
     <button type="submit">Liste des jeux</button>
   </form>
 
+  <form action="{{ url_for('my_likes') }}" method="GET" style="margin-top: 20px;">
+    <button type="submit">Mes likes</button>
+  </form>
+  
+  <form action="{{ url_for('reciprocal_matches') }}" method="GET" style="margin-top: 20px;">
+    <button type="submit">Mes matchs</button>
+  </form>
+
 {% endblock %}
