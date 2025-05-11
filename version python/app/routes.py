@@ -191,4 +191,4 @@ def init_routes(app):
         finally:
             cursor.close()
         
-        return redirect(url_for('home'))
+        return redirect(url_for('find_game'))
