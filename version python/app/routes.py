@@ -62,7 +62,7 @@ def init_routes(app):
         if result:
             game_id = result[0]
             cursor.execute("""
-                INSERT INTO player_games (user_id, game_id, game_condition, city)
+                INSERT INTO user_games (user_id, game_id, game_condition, city)
                 VALUES (%s, %s, %s, %s)
             """, (current_user.id, game_id, condition, city))
             mysql.connection.commit()
@@ -72,6 +72,51 @@ def init_routes(app):
 
         cursor.close()
         return redirect(url_for('home'))
+    
+    @app.route('/find_game')
+    @login_required
+    def find_game():
+        cursor = mysql.connection.cursor()
+        query = """
+            SELECT 
+                ug.id AS user_game_id,
+                g.title AS game_title,
+                u.username AS owner_username,
+                ug.city, ug.game_condition
+            FROM user_games ug
+            JOIN games g ON ug.game_id = g.id
+            JOIN users u ON ug.user_id = u.id
+            LEFT JOIN likes l ON ug.id = l.user_game_id AND l.user_id = %s
+            WHERE ug.user_id != %s
+            AND (l.id IS NULL OR l.liked IS NULL)  -- Le jeu n'a pas encore été liké ou ignoré
+            LIMIT 1;
+
+        """
+        cursor.execute(query, (current_user.id,current_user.id))
+        game = cursor.fetchall()
+        cursor.close()
+        if len(game) == 0:
+            return render_template('find_game.html', game=[])
+        return render_template('find_game.html', game=game[0])
+
+
+    @app.route('/handle_game_action', methods=['POST'])
+    @login_required
+    def handle_game_action():
+        user_game_id = request.form.get('user_game_id')
+        action = request.form.get('action')
+
+        cursor = mysql.connection.cursor()
+        cursor.execute("""
+            INSERT INTO likes (user_id, user_game_id, liked)
+            VALUES (%s, %s, %s)
+        """, (current_user.id, user_game_id, action == "like"))
+        mysql.connection.commit()
+        cursor.close()
+
+        return redirect(url_for('find_game'))
+
+
 
     @app.route('/logout')
     @login_required

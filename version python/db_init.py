@@ -31,7 +31,7 @@ def initialize_database():
     """)
 
     cursor.execute("""
-        CREATE TABLE IF NOT EXISTS player_games (
+        CREATE TABLE IF NOT EXISTS user_games (
             id INT AUTO_INCREMENT PRIMARY KEY,
             user_id INT NOT NULL,
             game_id INT NOT NULL,
@@ -39,6 +39,18 @@ def initialize_database():
             city VARCHAR(100) NOT NULL,
             FOREIGN KEY (user_id) REFERENCES users(id),
             FOREIGN KEY (game_id) REFERENCES games(id)
+        );
+
+    """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS likes (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            user_id INT NOT NULL,             -- l'utilisateur qui like
+            user_game_id INT NOT NULL,        -- le jeu liké (dans user_games)
+            liked BOOLEAN NOT NULL,           -- TRUE si liké, FALSE si ignoré
+            FOREIGN KEY (user_id) REFERENCES users(id),
+            FOREIGN KEY (user_game_id) REFERENCES user_games(id)
         );
 
     """)
