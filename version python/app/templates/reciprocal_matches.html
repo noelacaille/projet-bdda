@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="container mt-4">
-    <h2>🤝 Likes réciproques</h2>
+    <h2>🤝 Tes matchs !</h2>
     
     {% if matches %}
     <div class="table-responsive">
@@ -17,9 +17,9 @@
             <tbody>
                 {% for match in matches %}
                 <tr>
-                    <td>{{ match.other_user }}</td>
-                    <td>{{ match.your_liked_game_title }}</td>
-                    <td>{{ match.their_liked_game_title }}</td>
+                    <td>{{ match[0] }}</td>
+                    <td>{{ match[1] }}</td>
+                    <td>{{ match[2] }}</td>
                 </tr>
                 {% endfor %}
             </tbody>

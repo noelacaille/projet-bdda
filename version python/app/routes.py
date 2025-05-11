@@ -231,23 +231,26 @@ def init_routes(app):
         # Requête pour trouver les matchs réciproques
         cursor.execute("""
             SELECT 
-                l1.user_game_id AS your_liked_game_id,
+                u1.username AS c_user,
+                u2.username AS other_user,
                 g1.title AS your_liked_game_title,
-                l2.user_game_id AS their_liked_game_id,
-                g2.title AS their_liked_game_title,
-                u.username AS other_user
+                g2.title AS their_liked_game_title
             FROM likes l1
-            JOIN likes l2 
-                ON l1.user_game_id = l2.user_game_id 
-                AND l1.user_id != l2.user_id
             JOIN user_games ug1 ON l1.user_game_id = ug1.id
-            JOIN user_games ug2 ON l2.user_game_id = ug2.id
             JOIN games g1 ON ug1.game_id = g1.id
+            JOIN users u1 ON l1.user_id = u1.id
+
+            JOIN likes l2 ON l1.user_id = l2.user_game_id  -- mauvaise jointure supprimée
+            JOIN user_games ug2 ON l2.user_game_id = ug2.id
             JOIN games g2 ON ug2.game_id = g2.id
-            JOIN users u ON l2.user_id = u.id
-            WHERE l1.user_id = %s 
-                AND l2.user_id = ug1.user_id 
-                AND l1.user_id = ug2.user_id
+            JOIN users u2 ON ug2.user_id = u2.id
+
+            WHERE l1.user_id = %s  -- l'utilisateur connecté
+            AND l1.liked = TRUE
+            AND l2.liked = TRUE
+            AND l2.user_id = ug1.user_id   -- l'autre user a liké un de mes jeux
+            AND ug2.user_id = l1.user_id   -- le jeu que j’ai liké appartient à l’autre
+
         """, (current_user.id,))
         
         reciprocal = cursor.fetchall()
