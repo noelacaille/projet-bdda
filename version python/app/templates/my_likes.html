@@ -3,6 +3,10 @@
 {% block content %}
 <div class="container mt-4">
     <h2>Mes propositions d'échange</h2>
+
+    <a href="{{ url_for('home') }}" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left"></i> Retour au menu
+        </a>
     
     {% if matches %}
     <div class="table-responsive">
@@ -13,6 +17,7 @@
                     <th>Jeu liké</th>
                     <th>Propriétaire</th>
                     <th>Jeu proposé</th>
+                    <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
@@ -22,6 +27,14 @@
                     <td>{{ match[1] }}</td>
                     <td>{{ match[3] }}</td>
                     <td>{{ match[2] }}</td>
+                    <td>
+                        <form action="{{ url_for('delete_like', like_id=match[4]) }}" method="POST">
+                            <button type="submit" class="btn btn-danger btn-sm" 
+                                    onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce like?')">
+                                <i class="fas fa-trash-alt"></i> Supprimer
+                            </button>
+                        </form>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>

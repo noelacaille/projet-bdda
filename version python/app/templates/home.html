@@ -30,6 +30,10 @@
 
   </div>
 
+  <form action="{{ url_for('my_offered_games') }}" method="GET" style="margin-top: 20px;">
+    <button type="submit">Mes jeux</button>
+  </form>
+
   <form action="{{ url_for('find_game') }}" method="GET" style="margin-top: 20px;">
     <button type="submit">Trouver un jeu</button>
   </form>
@@ -45,5 +49,5 @@
   <form action="{{ url_for('reciprocal_matches') }}" method="GET" style="margin-top: 20px;">
     <button type="submit">Mes matchs</button>
   </form>
-
+  
 {% endblock %}

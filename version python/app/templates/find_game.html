@@ -1,21 +1,82 @@
 {% extends "base.html" %}
-{% block content %}
-  <h2>Jeu à échanger</h2>
 
-  {% if game %}
-    <div class="card">
-      <h3>{{ game[1] }}</h3> <!-- Nom du jeu -->
-      <p>Proposé par : {{ game[3] }}</p> <!-- Nom du propriétaire -->
-      <p>Ville : {{ game[4] }}</p> <!-- Ville -->
-      <p>Condition du jeu : {{ game[5] }}</p>
-      <img src="{{ game[2] }}" alt="Image du jeu" style="width: 70px; height: auto;">
-      <form action="{{ url_for('handle_game_action') }}" method="post">
-        <input type="hidden" name="user_game_id" value="{{ game[0] }}">
-        <button type="submit" name="action" value="like">❤️ Liker</button>
-        <button type="submit" name="action" value="ignore">Ignorer</button>
-      </form>
+{% block content %}
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2><i class="fas fa-exchange-alt"></i> Jeu à échanger</h2>
+        <a href="{{ url_for('home') }}" class="btn btn-outline-primary">
+            <i class="fas fa-arrow-left"></i> Retour au menu
+        </a>
     </div>
-  {% else %}
-    <p>Aucun jeu à afficher pour le moment.</p>
-  {% endif %}
+
+    {% if not current_user_has_games %}
+    <div class="alert alert-warning">
+        <h4><i class="fas fa-exclamation-triangle"></i> Action impossible</h4>
+        <p>Vous devez d'abord proposer au moins un jeu avant de pouvoir échanger.</p>
+        <a href="{{ url_for('my_offered_games') }}" class="btn btn-primary mt-2">
+            <i class="fas fa-plus"></i> Proposer un jeu
+        </a>
+    </div>
+    {% elif no_games_left %}
+    <div class="alert alert-info">
+        <h4><i class="fas fa-info-circle"></i> Tour complet</h4>
+        <p>Vous avez parcouru tous les jeux disponibles pour le moment.</p>
+        <p>Revenez plus tard pour découvrir de nouvelles propositions.</p>
+    </div>
+    {% elif game %}
+    <div class="card shadow-sm">
+        <div class="row g-0">
+            <div class="col-md-4">
+                {% if game[2] %}
+                <img src="{{ game[2] }}" class="img-fluid rounded-start" alt="{{ game[1] }}" style="max-height: 300px; object-fit: contain;">
+                {% else %}
+                <div class="d-flex align-items-center justify-content-center bg-light" style="height: 100%; min-height: 200px;">
+                    <i class="fas fa-gamepad fa-5x text-muted"></i>
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-md-8">
+                <div class="card-body">
+                    <h3 class="card-title">{{ game[1] }}</h3>
+                    <div class="game-details mb-4">
+                        <p><i class="fas fa-user"></i> <strong>Proposé par :</strong> {{ game[3] }}</p>
+                        <p><i class="fas fa-map-marker-alt"></i> <strong>Ville :</strong> {{ game[4] }}</p>
+                        <p><i class="fas fa-star-half-alt"></i> <strong>État :</strong> {{ game[5] | capitalize }}</p>
+                    </div>
+                    
+                    <form action="{{ url_for('handle_game_action') }}" method="post" class="mt-4">
+                        <input type="hidden" name="user_game_id" value="{{ game[0] }}">
+                        <div class="d-flex gap-3">
+                            <button type="submit" name="action" value="like" class="btn btn-success btn-lg flex-grow-1">
+                                <i class="fas fa-heart"></i> Liker
+                            </button>
+                            <button type="submit" name="action" value="ignore" class="btn btn-outline-secondary btn-lg flex-grow-1">
+                                <i class="fas fa-times"></i> Ignorer
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% else %}
+    <div class="alert alert-info">
+        <i class="fas fa-info-circle"></i> Aucun jeu disponible pour le moment.
+    </div>
+    {% endif %}
+</div>
+
+<style>
+    .game-details p {
+        margin-bottom: 0.5rem;
+    }
+    .card {
+        border: none;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+    .btn-lg {
+        padding: 0.5rem 1rem;
+    }
+</style>
 {% endblock %}

@@ -31,6 +31,25 @@ def initialize_database():
     """)
 
     cursor.execute("""
+        CREATE TABLE IF NOT EXISTS games (
+            id INT PRIMARY KEY,  -- correspond à l'id unique du jeu
+            description TEXT,
+            title TEXT,
+            year_published INT,
+            min_players INT,
+            max_players INT,
+            playing_time INT,
+            min_age INT,
+            category TEXT,
+            mechanic TEXT,
+            designer TEXT,
+            publisher TEXT,
+            thumbnail VARCHAR(255)
+        );
+
+    """)
+
+    cursor.execute("""
         CREATE TABLE IF NOT EXISTS user_games (
             id INT AUTO_INCREMENT PRIMARY KEY,
             user_id INT NOT NULL,
@@ -51,25 +70,6 @@ def initialize_database():
             liked BOOLEAN NOT NULL,           -- TRUE si liké, FALSE si ignoré
             FOREIGN KEY (user_id) REFERENCES users(id),
             FOREIGN KEY (user_game_id) REFERENCES user_games(id)
-        );
-
-    """)
-
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS games (
-            id INT PRIMARY KEY,  -- correspond à l'id unique du jeu
-            description TEXT,
-            title TEXT,
-            year_published INT,
-            min_players INT,
-            max_players INT,
-            playing_time INT,
-            min_age INT,
-            category TEXT,
-            mechanic TEXT,
-            designer TEXT,
-            publisher TEXT,
-            thumbnail VARCHAR(255)
         );
 
     """)

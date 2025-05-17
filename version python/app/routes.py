@@ -56,6 +56,12 @@ def init_routes(app):
         city = request.form['city']
 
         cursor = mysql.connection.cursor()
+        # Vérifier que l'utilisateur a au moins un jeu
+        cursor.execute("SELECT COUNT(*) FROM user_games WHERE user_id = %s", (current_user.id,))
+        if cursor.fetchone()[0] == 0:
+            flash("Vous devez d'abord proposer au moins un jeu avant d'échanger", 'warning')
+            return redirect(url_for('home'))
+    
         cursor.execute("SELECT id FROM games WHERE title = %s", (title,))
         result = cursor.fetchone()
 
@@ -76,6 +82,21 @@ def init_routes(app):
     @app.route('/find_game')
     @login_required
     def find_game():
+
+        # D'abord vérifier si l'utilisateur a des jeux à proposer
+        cursor.execute("""
+            SELECT COUNT(*) 
+            FROM user_games 
+            WHERE user_id = %s
+        """, (current_user.id,))
+        user_has_games = cursor.fetchone()[0] > 0
+
+        if not user_has_games:
+            flash("Vous devez d'abord proposer des jeux avant de pouvoir échanger", 'warning')
+            return redirect(url_for('home'))
+
+        # Si l'utilisateur a des jeux, continuer avec la recherche normale
+
         cursor = mysql.connection.cursor()
         cursor.execute("""
             SELECT * FROM vw_AvailableGames
@@ -206,7 +227,8 @@ def init_routes(app):
                 m.created_at,
                 liked_game.title AS liked_title,
                 offered_game.title AS offered_title,
-                owner.username AS owner_username
+                owner.username AS owner_username,
+                l.id AS like_id
             FROM matches m
             JOIN likes l ON m.like_id = l.id
             JOIN user_games liked_ug ON l.user_game_id = liked_ug.id
@@ -257,3 +279,94 @@ def init_routes(app):
         cursor.close()
         
         return render_template('reciprocal_matches.html', matches=reciprocal)
+
+    @app.route('/delete_like/<int:like_id>', methods=['POST'])
+    @login_required
+    def delete_like(like_id):
+        cursor = mysql.connection.cursor()
+        try:
+            # Vérifier que le like appartient bien à l'utilisateur courant
+            cursor.execute("SELECT id FROM likes WHERE id = %s AND user_id = %s", 
+                        (like_id, current_user.id))
+            if not cursor.fetchone():
+                flash("Ce like ne vous appartient pas", 'danger')
+                return redirect(url_for('my_likes'))
+            
+            # Supprimer le like et les matches associés
+            cursor.execute("DELETE FROM matches WHERE like_id = %s", (like_id,))
+            cursor.execute("DELETE FROM likes WHERE id = %s", (like_id,))
+            
+            mysql.connection.commit()
+            flash("Like supprimé avec succès", 'success')
+        except Exception as e:
+            mysql.connection.rollback()
+            flash(f"Erreur lors de la suppression: {str(e)}", 'danger')
+        finally:
+            cursor.close()
+        
+        return redirect(url_for('my_likes'))
+    
+
+    @app.route('/my_offered_games')
+    @login_required
+    def my_offered_games():
+        cursor = mysql.connection.cursor()
+        
+        # Récupérer les jeux proposés par l'utilisateur avec leurs infos
+        cursor.execute("""
+            SELECT 
+                ug.id,
+                g.title,
+                g.thumbnail,
+                ug.game_condition,
+                ug.city,
+                COUNT(l.id) AS like_count
+            FROM user_games ug
+            JOIN games g ON ug.game_id = g.id
+            LEFT JOIN likes l ON ug.id = l.user_game_id
+            WHERE ug.user_id = %s
+            GROUP BY ug.id
+            ORDER BY g.title
+        """, (current_user.id,))
+        
+        games = cursor.fetchall()
+        cursor.close()
+        
+        return render_template('my_offered_games.html', games=games)
+
+    @app.route('/delete_offered_game/<int:game_id>', methods=['POST'])
+    @login_required
+    def delete_offered_game(game_id):
+        cursor = mysql.connection.cursor()
+        try:
+            # 1. Vérification de propriété
+            cursor.execute("SELECT id FROM user_games WHERE id = %s AND user_id = %s", 
+                        (game_id, current_user.id))
+            if not cursor.fetchone():
+                flash("Action non autorisée", 'danger')
+                return redirect(url_for('my_offered_games'))
+
+            # 2. Suppression en cascade manuelle
+            # D'abord les matches associés via like_id
+            cursor.execute("""
+                DELETE m FROM matches m
+                JOIN likes l ON m.like_id = l.id
+                WHERE l.user_game_id = %s
+            """, (game_id,))
+            
+            # Ensuite les likes directs
+            cursor.execute("DELETE FROM likes WHERE user_game_id = %s", (game_id,))
+            
+            # Enfin le jeu lui-même
+            cursor.execute("DELETE FROM user_games WHERE id = %s", (game_id,))
+            
+            mysql.connection.commit()
+            flash("Jeu et données associées supprimés avec succès", 'success')
+            
+        except Exception as e:
+            mysql.connection.rollback()
+            flash(f"Erreur technique lors de la suppression: {str(e)}", 'danger')
+        finally:
+            cursor.close()
+        
+        return redirect(url_for('my_offered_games'))
