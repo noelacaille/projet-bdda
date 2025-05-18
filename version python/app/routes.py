@@ -83,6 +83,8 @@ def init_routes(app):
     @login_required
     def find_game():
 
+        cursor = mysql.connection.cursor()
+
         # D'abord vérifier si l'utilisateur a des jeux à proposer
         cursor.execute("""
             SELECT COUNT(*) 
@@ -97,7 +99,6 @@ def init_routes(app):
 
         # Si l'utilisateur a des jeux, continuer avec la recherche normale
 
-        cursor = mysql.connection.cursor()
         cursor.execute("""
             SELECT * FROM vw_AvailableGames
             WHERE owner_id != %s
