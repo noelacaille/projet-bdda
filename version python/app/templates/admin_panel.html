@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1 class="mb-4">Panel d'Administration</h1>
+    
+    <!-- Statistiques -->
+    <div class="row mb-4">
+        <div class="col-md-3">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Utilisateurs</h5>
+                    <p class="card-text display-4">{{ stats.users }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Jeux</h5>
+                    <p class="card-text display-4">{{ stats.games }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Échanges</h5>
+                    <p class="card-text display-4">{{ stats.exchanges }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card bg-warning text-dark">
+                <div class="card-body">
+                    <h5 class="card-title">Matches</h5>
+                    <p class="card-text display-4">{{ stats.matches }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenu des onglets -->
+    <div class="tab-content" id="adminTabsContent">
+        <!-- Onglet Utilisateurs -->
+        <div class="tab-pane fade show active" id="users" role="tabpanel">
+            <h3>Gestion des Utilisateurs</h3>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nom</th>
+                            <th>Admin</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                        <tr>
+                            <td>{{ user.0 }}</td>
+                            <td>{{ user.1 }}</td>
+                            <td>{{ 'Oui' if user.is_admin else 'Non' }}</td>
+                            <td>
+                                <a href="{{ url_for('edit_user', user_id=user.0) }}" class="btn btn-sm btn-primary">Éditer</a>
+                                {% if not user.is_admin %}
+                                <form action="{{ url_for('delete_user', user_id=user.0) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Confirmer la suppression?')">Supprimer</button>
+                                </form>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Onglet Jeux -->
+        <div class="tab-pane fade" id="games" role="tabpanel">
+            <h3>Gestion des Jeux</h3>
+            <div class="mb-3">
+                <a href="{{ url_for('add_game') }}" class="btn btn-success">Ajouter un jeu</a>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Titre</th>
+                            <th>Année</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for game in games %}
+                        <tr>
+                            <td>{{ game.0 }}</td>
+                            <td>{{ game.1 }}</td>
+                            <td>{{ game.2 }}</td>
+                            <td>
+                                <a href="{{ url_for('edit_game', game_id=game.0) }}" class="btn btn-sm btn-primary">Éditer</a>
+                                <form action="{{ url_for('delete_game', game_id=game.0) }}" method="POST" style="display:inline;">
+                                    <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Confirmer la suppression?')">Supprimer</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="pagination">
+                {% if current_page > 1 %}
+                    <a href="{{ url_for('admin_panel', page=current_page - 1) }}#users">← Précédent</a>
+                {% endif %}
+
+                <span>Page {{ current_page }} sur {{ total_pages }}</span>
+
+                {% if current_page < total_pages %}
+                    <a href="{{ url_for('admin_panel', page=current_page + 1) }}#users">Suivant →</a>
+                {% endif %}
+            </div>
+        </div>
+
+
+
+        <!-- Onglet Logs -->
+        <div class="tab-pane fade" id="logs" role="tabpanel">
+            <h3>Logs d'Activité</h3>
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Action</th>
+                            <th>Utilisateur</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for log in logs %}
+                        <tr>
+                            <td>{{ log.3.strftime('%Y-%m-%d %H:%M') }}</td>
+                            <td>{{ log.1 }}</td>
+                            <td>{{ log.2 }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

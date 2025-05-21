@@ -3,6 +3,7 @@ from flask_login import login_user, logout_user, login_required, current_user
 from app.models import User
 from app.extensions import mysql, bcrypt
 import ast
+import json
 
 def init_routes(app):
     @app.route("/")
@@ -19,7 +20,7 @@ def init_routes(app):
             user = cur.fetchone()
             cur.close()
             if user and bcrypt.check_password_hash(user[2], password_input):
-                user_obj = User(user[0], user[1], user[2])
+                user_obj = User(user[0], user[1], user[2], user[3])
                 login_user(user_obj)
                 return redirect(url_for('home'))
             else:
@@ -394,3 +395,263 @@ def init_routes(app):
 
         return render_template("game_detail.html", game=game)
 
+    @app.route('/admin')
+    @login_required
+    def admin_panel():
+        # Vérifier que l'utilisateur est admin
+        if not current_user.is_admin:
+            flash("Accès refusé : droits insuffisants", "danger")
+            return redirect(url_for('home'))
+
+        cursor = mysql.connection.cursor()
+
+        # Récupérer les statistiques
+        cursor.execute("SELECT COUNT(*) FROM users")
+        users_count = cursor.fetchone()[0]
+
+        cursor.execute("SELECT COUNT(*) FROM games")
+        games_count = cursor.fetchone()[0]
+
+        cursor.execute("SELECT COUNT(*) FROM user_games")
+        exchanges_count = cursor.fetchone()[0]
+
+        cursor.execute("SELECT COUNT(*) FROM matches")
+        matches_count = cursor.fetchone()[0]
+
+        stats = {
+            'users': users_count,
+            'games': games_count,
+            'exchanges': exchanges_count,
+            'matches': matches_count
+        }
+
+        # Récupérer les logs
+        cursor.execute("SELECT * FROM audit_log ORDER BY created_at DESC LIMIT 50")
+        logs = cursor.fetchall()
+
+        # Liste des utilisateurs
+        cursor.execute("SELECT id, username, is_admin FROM users")
+        users = cursor.fetchall()
+
+        # Liste des jeux
+        # Pagination des jeux
+        page = request.args.get('page', default=1, type=int)
+        per_page = 10  # Nombre de jeux par page
+        offset = (page - 1) * per_page
+
+        cursor.execute("SELECT id, title, year_published, description FROM games ORDER BY title LIMIT %s OFFSET %s", (per_page, offset))
+        games = cursor.fetchall()
+
+        # Nombre total de pages
+        total_pages = (games_count + per_page - 1) // per_page  # arrondi vers le haut
+
+        cursor.close()
+        return render_template(
+        'admin_panel.html',
+        stats=stats,
+        logs=logs,
+        users=users,
+        games=games,
+        current_page=page,
+        total_pages=total_pages
+    )
+
+    
+    # Routes pour la gestion des utilisateurs
+    @app.route('/admin/users/<int:user_id>/edit', methods=['GET', 'POST'])
+    @login_required
+    def edit_user(user_id):
+        if not current_user.is_admin:
+            flash("Accès refusé", "danger")
+            return redirect(url_for('home'))
+
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT * FROM users WHERE id = %s", (user_id,))
+        user = cursor.fetchone()
+
+        if request.method == 'POST':
+            is_admin = 'is_admin' in request.form
+            cursor.execute("""
+                UPDATE users 
+                SET is_admin = %s 
+                WHERE id = %s
+            """, (is_admin, user_id))
+            mysql.connection.commit()
+            flash("Utilisateur mis à jour", "success")
+            return redirect(url_for('admin_panel'))
+
+        cursor.close()
+        return render_template('edit_user.html', user=user)
+
+    @app.route('/admin/users/<int:user_id>/delete', methods=['POST'])
+    @login_required
+    def delete_user(user_id):
+        if not current_user.is_admin:
+            flash("Accès refusé", "danger")
+            return redirect(url_for('home'))
+
+        cursor = mysql.connection.cursor()
+        try:
+            # 1. Vérifier que l'utilisateur n'est pas admin
+            cursor.execute("SELECT is_admin FROM users WHERE id = %s", (user_id,))
+            result = cursor.fetchone()
+            if not result:
+                flash("Utilisateur non trouvé", "danger")
+                return redirect(url_for('admin_panel'))
+                
+            if result[0]:  # Si is_admin est True
+                flash("Impossible de supprimer un admin", "danger")
+                return redirect(url_for('admin_panel'))
+
+            # 2. Suppression en cascade complète
+            # D'abord les matches associés aux likes de l'utilisateur
+            cursor.execute("""
+                DELETE m FROM matches m
+                JOIN likes l ON m.like_id = l.id
+                WHERE l.user_id = %s
+            """, (user_id,))
+
+            # Ensuite les matches où l'utilisateur a offert des jeux
+            cursor.execute("""
+                DELETE m FROM matches m
+                JOIN user_games ug ON m.offered_game_id = ug.id
+                WHERE ug.user_id = %s
+            """, (user_id,))
+
+            # Puis les likes de l'utilisateur
+            cursor.execute("DELETE FROM likes WHERE user_id = %s", (user_id,))
+
+            # Les likes sur les jeux de l'utilisateur
+            cursor.execute("""
+                DELETE l FROM likes l
+                JOIN user_games ug ON l.user_game_id = ug.id
+                WHERE ug.user_id = %s
+            """, (user_id,))
+
+            # Les jeux proposés par l'utilisateur
+            cursor.execute("DELETE FROM user_games WHERE user_id = %s", (user_id,))
+
+            # Enfin l'utilisateur lui-même
+            cursor.execute("DELETE FROM users WHERE id = %s", (user_id,))
+
+            mysql.connection.commit()
+            flash("Utilisateur et toutes ses données associées supprimés avec succès", "success")
+        except Exception as e:
+            mysql.connection.rollback()
+            flash(f"Erreur lors de la suppression: {str(e)}", "danger")
+        finally:
+            cursor.close()
+
+        return redirect(url_for('admin_panel'))
+
+    # Routes pour la gestion des jeux
+    @app.route('/admin/games/add', methods=['GET', 'POST'])
+    @login_required
+    def add_game():
+        if not current_user.is_admin:
+            flash("Accès refusé", "danger")
+            return redirect(url_for('home'))
+
+        if request.method == 'POST':
+            try:
+                data = request.form.to_dict()
+                # Convertir les listes en strings JSON
+                for field in ['category', 'mechanic', 'designer', 'publisher']:
+                    if field in data:
+                        data[field] = json.dumps([x.strip() for x in data[field].split(',')])
+
+                cursor = mysql.connection.cursor()
+                cursor.execute("""
+                    INSERT INTO games (
+                        id, title, description, year_published, min_players, 
+                        max_players, playing_time, min_age, category, 
+                        mechanic, designer, publisher, thumbnail
+                    ) VALUES (
+                        %(id)s, %(title)s, %(description)s, %(year_published)s, 
+                        %(min_players)s, %(max_players)s, %(playing_time)s, 
+                        %(min_age)s, %(category)s, %(mechanic)s, %(designer)s, 
+                        %(publisher)s, %(thumbnail)s
+                    )
+                """, data)
+                mysql.connection.commit()
+                flash("Jeu ajouté avec succès", "success")
+                return redirect(url_for('admin_panel'))
+            except Exception as e:
+                mysql.connection.rollback()
+                flash(f"Erreur: {str(e)}", "danger")
+
+        return render_template('add_game.html')
+
+    @app.route('/admin/games/<int:game_id>/edit', methods=['GET', 'POST'])
+    @login_required
+    def edit_game(game_id):
+        if not current_user.is_admin:
+            flash("Accès refusé", "danger")
+            return redirect(url_for('home'))
+
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT * FROM games WHERE id = %s", (game_id,))
+        game = cursor.fetchone()
+
+        if request.method == 'POST':
+            try:
+                data = request.form.to_dict()
+                data['id'] = game_id
+                
+                # Convertir les listes en strings JSON
+                for field in ['category', 'mechanic', 'designer', 'publisher']:
+                    if field in data:
+                        data[field] = json.dumps([x.strip() for x in data[field].split(',')])
+
+                cursor.execute("""
+                    UPDATE games SET
+                        title = %(title)s,
+                        description = %(description)s,
+                        year_published = %(year_published)s,
+                        min_players = %(min_players)s,
+                        max_players = %(max_players)s,
+                        playing_time = %(playing_time)s,
+                        min_age = %(min_age)s,
+                        category = %(category)s,
+                        mechanic = %(mechanic)s,
+                        designer = %(designer)s,
+                        publisher = %(publisher)s,
+                        thumbnail = %(thumbnail)s
+                    WHERE id = %(id)s
+                """, data)
+                mysql.connection.commit()
+                flash("Jeu mis à jour", "success")
+                return redirect(url_for('admin_panel'))
+            except Exception as e:
+                mysql.connection.rollback()
+                flash(f"Erreur: {str(e)}", "danger")
+
+        cursor.close()
+        
+        # Convertir les JSON strings en listes pour l'affichage
+        game = list(game)
+        for i in [8, 9, 10, 11]:  # indexes des champs liste
+            if game[i]:
+                game[i] = ", ".join(json.loads(game[i]))
+        
+        return render_template('edit_game.html', game=game)
+
+    @app.route('/admin/games/<int:game_id>/delete', methods=['POST'])
+    @login_required
+    def delete_game(game_id):
+        if not current_user.is_admin:
+            flash("Accès refusé", "danger")
+            return redirect(url_for('home'))
+
+        cursor = mysql.connection.cursor()
+        try:
+            cursor.execute("DELETE FROM games WHERE id = %s", (game_id,))
+            mysql.connection.commit()
+            flash("Jeu supprimé", "success")
+        except Exception as e:
+            mysql.connection.rollback()
+            flash(f"Erreur: {str(e)}", "danger")
+        finally:
+            cursor.close()
+
+        return redirect(url_for('admin_panel'))
