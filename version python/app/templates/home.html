@@ -2,52 +2,48 @@
 {% block content %}
   <p>Bienvenue sur Play'n'Trade</p>
 
-  <button onclick="document.getElementById('exchange-form').style.display='block'">Échanger mon jeu</button>
+  <button id="open-modal">Échanger mon jeu</button>
 
-  <div id="exchange-form" style="display:none; margin-top:20px;">
-    <form method="POST" action="{{ url_for('exchange_game') }}">
-        <label for="game_title">Nom du jeu :</label>
-        <input list="games" name="game_title" required>
-        <datalist id="games">
-            {% for game in games %}
-            <option value="{{ game[1] }}"></option>
-            {% endfor %}
-        </datalist><br><br>
+  <div id="modal-backdrop" class="modal-backdrop">
+    <div class="modal">
+      <button id="close-modal" class="modal-close">&times;</button>
+      <form method="POST" action="{{ url_for('exchange_game') }}">
+          <label for="game_title">Nom du jeu :</label>
+          <input list="games" name="game_title" required>
+          <datalist id="games">
+              {% for game in games %}
+              <option value="{{ game[1] }}"></option>
+              {% endfor %}
+          </datalist>
 
-        <label for="condition">État du jeu :</label>
-        <select name="condition" required>
-            <option>neuf</option>
-            <option>très bon état</option>
-            <option>bon état</option>
-            <option>acceptable</option>
-        </select><br><br>
+          <label for="condition">État du jeu :</label>
+          <select name="condition" required>
+              <option>neuf</option>
+              <option>très bon état</option>
+              <option>bon état</option>
+              <option>acceptable</option>
+          </select>
 
-        <label for="city">Ville :</label>
-        <input type="text" name="city" required><br><br>
+          <label for="city">Ville :</label>
+          <input type="text" name="city" required>
 
-        <input type="submit" value="Ajouter">
-    </form>
-
+          <input type="submit" value="Ajouter">
+      </form>
+    </div>
   </div>
 
-  <form action="{{ url_for('my_offered_games') }}" method="GET" style="margin-top: 20px;">
-    <button type="submit">Mes jeux</button>
-  </form>
+{% endblock %}
 
-  <form action="{{ url_for('find_game') }}" method="GET" style="margin-top: 20px;">
-    <button type="submit">Trouver un jeu</button>
-  </form>
+{% block scripts %}
+<script>
+  const openBtn = document.getElementById('open-modal');
+  const closeBtn = document.getElementById('close-modal');
+  const backdrop = document.getElementById('modal-backdrop');
 
-   <form action="{{ url_for('all_games') }}" method="GET" style="margin-top: 20px;">
-    <button type="submit">Liste des jeux</button>
-  </form>
-
-  <form action="{{ url_for('my_likes') }}" method="GET" style="margin-top: 20px;">
-    <button type="submit">Mes likes</button>
-  </form>
-  
-  <form action="{{ url_for('reciprocal_matches') }}" method="GET" style="margin-top: 20px;">
-    <button type="submit">Mes matchs</button>
-  </form>
-  
+  openBtn.onclick = () => backdrop.style.display = 'flex';
+  closeBtn.onclick = () => backdrop.style.display = 'none';
+  window.onclick = (e) => {
+    if (e.target === backdrop) backdrop.style.display = 'none';
+  };
+</script>
 {% endblock %}

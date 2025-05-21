@@ -1,0 +1,122 @@
+body {
+	font-family: var(--font-family-sans);
+	font-size: var(--font-size-base);
+	color: var(--color-text);
+	background-color: var(--color-background);
+	line-height: var(--line-height-base);
+}
+
+p {
+	font-size: var(--font-size-xl);
+	font-weight: var(--font-weight-medium);
+	margin-bottom: var(--space-lg);
+}
+
+button {
+	background-color: var(--color-primary);
+	color: var(--color-surface);
+	font-weight: var(--font-weight-bold);
+	font-size: var(--font-size-base);
+	padding: var(--space-sm) var(--space-md);
+	border: none;
+	border-radius: var(--border-radius-pill);
+	box-shadow: var(--shadow-md);
+	cursor: pointer;
+	transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+button:hover {
+	background-color: var(--color-primary-hover);
+	transform: scale(1.05);
+}
+
+.modal-backdrop {
+	display: none;
+	position: fixed;
+	inset: 0;
+	background-color: rgba(61, 44, 46, 0.5);
+	backdrop-filter: blur(3px);
+	justify-content: center;
+	align-items: center;
+	z-index: var(--z-index-modal);
+	padding: var(--space-md);
+}
+
+.modal {
+	background-color: var(--color-surface);
+	border-radius: var(--border-radius-lg);
+	box-shadow: var(--shadow-lg);
+	padding: var(--space-xl);
+	max-width: 500px;
+	width: 100%;
+	position: relative;
+	animation: fadeIn var(--motion-popup-fade);
+}
+
+.modal-close {
+	position: absolute;
+	top: var(--space-sm);
+	right: var(--space-sm);
+	background: none;
+	border: none;
+	font-size: var(--font-size-lg);
+	color: var(--color-muted);
+	cursor: pointer;
+}
+
+form label {
+	display: block;
+	font-weight: var(--font-weight-medium);
+	margin-top: var(--space-md);
+	margin-bottom: var(--space-xs);
+}
+
+form input[type="text"],
+form input[list],
+form select {
+	width: 100%;
+	padding: var(--space-sm);
+	font-size: var(--font-size-sm);
+	border: var(--border-width) solid var(--color-border);
+	border-radius: var(--border-radius-sm);
+	background-color: var(--color-surface);
+	transition: border-color var(--transition-fast);
+	margin-bottom: var(--space-sm);
+}
+
+form input[type="text"]:focus,
+form input[list]:focus,
+form select:focus {
+	border-color: var(--color-accent);
+	outline: none;
+}
+
+form input[type="submit"] {
+	background-color: var(--color-success);
+	color: var(--color-surface);
+	font-weight: var(--font-weight-medium);
+	padding: var(--space-sm) var(--space-md);
+	border: none;
+	border-radius: var(--border-radius-pill);
+	box-shadow: var(--shadow-sm);
+	cursor: pointer;
+	margin-top: var(--space-md);
+	transition: background-color var(--transition-fast), transform var(--transition-fast);
+}
+
+form input[type="submit"]:hover {
+	background-color: #55a56a;
+	transform: scale(1.03);
+}
+
+@keyframes fadeIn {
+	from {
+		opacity: 0;
+		transform: scale(0.95);
+	}
+
+	to {
+		opacity: 1;
+		transform: scale(1);
+	}
+}

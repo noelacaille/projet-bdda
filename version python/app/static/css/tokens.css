@@ -1,0 +1,90 @@
+/* Design System Tokens */
+/* This file contains design tokens for a consistent design system. */
+
+:root {
+  /* Typography */
+  --font-family-sans: 'Poppins', 'Helvetica Neue', Arial, sans-serif;
+  --font-size-base: 16px;
+  --font-size-sm: 14px;
+  --font-size-lg: 18px;
+  --font-size-xl: 26px;
+  --font-weight-regular: 400;
+  --font-weight-medium: 500;
+  --font-weight-bold: 700;
+  --line-height-base: 1.7;
+
+  /* Colors (soft, playful, warm tones) */
+  --color-primary: #F28C6A;
+  /* Soft Coral */
+  --color-primary-hover: #e37557;
+  --color-secondary: #FBCB9C;
+  /* Peach */
+  --color-accent: #FF7E66;
+  /* Vivid Orange */
+  --color-background: #FFF5F0;
+  /* Warm Light */
+  --color-surface: #FFFFFF;
+  --color-border: #F4D9CC;
+  --color-text: #3D2C2E;
+  /* Dark Brown */
+  --color-muted: #9E7F7F;
+  --color-success: #65B97A;
+  --color-error: #E86161;
+
+  /* Spacing & Sizing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --container-max-width: 1140px;
+
+  /* Border */
+  --border-radius-sm: 6px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 24px;
+  --border-radius-pill: 9999px;
+  --border-width: 1px;
+  --border-color: var(--color-border);
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px rgba(243, 158, 117, 0.1);
+  --shadow-md: 0 4px 10px rgba(243, 158, 117, 0.15);
+  --shadow-lg: 0 10px 20px rgba(243, 158, 117, 0.2);
+
+  /* Gradient */
+  --gradient-primary: linear-gradient(135deg, #FFD0B6 0%, #F28C6A 100%);
+  --gradient-card: linear-gradient(180deg, #fff 0%, #fff3ed 100%);
+
+  /* Transitions */
+  --transition-fast: 150ms ease-in-out;
+  --transition-medium: 300ms ease-in-out;
+  --transition-slow: 600ms ease-in-out;
+
+  /* Z-index */
+  --z-index-base: 1;
+  --z-index-dropdown: 10;
+  --z-index-modal: 100;
+  --z-index-toast: 1000;
+
+  /* Motion */
+  --motion-swipe-duration: 400ms;
+  --motion-popup-fade: 250ms ease-in;
+
+  /* Opacity */
+  --opacity-disabled: 0.5;
+
+  /* Stroke */
+  --stroke-width: 1.5;
+
+  /* Rotation */
+  --rotate-like: -8deg;
+  --rotate-dislike: 8deg;
+
+  /* Assets */
+  --image-background: url('static/img/background.png');
+  --image-logo: url('static/img/logo.png');
+}
+
+/* Un "Tinder des jeux" doit transmettre un sentiment de fun, simplicité et fluidité tout en restant moderne et agréable à utiliser. */
+/* Utilise Lucide pour rester dans l'univers UI friendly, flat & simple. */
