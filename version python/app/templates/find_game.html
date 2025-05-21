@@ -29,7 +29,7 @@
             </div>
             <div class="col-md-8">
                 <div class="card-body">
-                    <h3 class="card-title">{{ game[1] }}</h3>
+                    <h3 class="card-title"><a href="{{ url_for('game_detail', game_title=game[1]) }}">{{ game[1] }}</a></h3>
                     <div class="game-details mb-4">
                         <p><i class="fas fa-user"></i> <strong>Proposé par :</strong> {{ game[3] }}</p>
                         <p><i class="fas fa-map-marker-alt"></i> <strong>Ville :</strong> {{ game[4] }}</p>

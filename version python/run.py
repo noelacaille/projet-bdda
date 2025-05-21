@@ -9,5 +9,14 @@ if IMPORT_GAMES:
     import_games_from_csv("version python/details.csv", "version python/ratings.csv")
 app = create_app()
 
+@app.template_filter('to_list')
+def to_list_filter(s):
+    if s is None:
+        return []
+    if isinstance(s, str):
+        # Si c'est une chaîne, on la retourne telle quelle
+        return [s]
+    return list(s)
+
 if __name__ == "__main__":
     app.run(debug=True)

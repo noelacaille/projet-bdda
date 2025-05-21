@@ -2,6 +2,7 @@ from flask import render_template, redirect, url_for, request, flash
 from flask_login import login_user, logout_user, login_required, current_user
 from app.models import User
 from app.extensions import mysql, bcrypt
+import ast
 
 def init_routes(app):
     @app.route("/")
@@ -366,3 +367,30 @@ def init_routes(app):
             cursor.close()
         
         return redirect(url_for('my_offered_games'))
+    
+    @app.route('/game/<string:game_title>')
+    def game_detail(game_title):
+        cursor = mysql.connection.cursor()
+
+        cursor.execute("""
+            SELECT id, title, description, year_published, min_players, max_players,
+                playing_time, min_age, category, mechanic, designer, publisher, thumbnail
+            FROM games
+            WHERE title = %s
+        """, (game_title,))
+        
+        game = cursor.fetchone()
+
+        if not game:
+            return "Jeu non trouvé", 404
+        
+        # Normalize list fields
+        # Tupe does not support item assignment
+        # Convert to list for easier manipulation
+        game = list(game)
+        for i in [8, 9, 10, 11]:  # indexes of list fields
+            game[i] = ast.literal_eval(game[i])
+            game[i] = ", ".join(game[i]) if isinstance(game[i], list) else game[i]
+
+        return render_template("game_detail.html", game=game)
+

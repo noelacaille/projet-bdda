@@ -34,7 +34,7 @@
             {% endif %}
             
             <div class="game-body">
-                <h5 class="game-title">{{ game.1 }}</h5>
+                <h5 class="game-title"><a href="{{ url_for('game_detail', game_title=game.1) }}">{{ game.1 }}</a></h5>
                 <div class="game-meta">
                     <div><i class="fas fa-map-marker-alt"></i> {{ game.4 }}</div>
                     <div><i class="fas fa-star"></i> {{ game.5 }} like(s)</div>

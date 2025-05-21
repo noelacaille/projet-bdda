@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="game-detail">
+    <a href="{{ url_for('index') }}">← Retour à l'accueil</a>
+
+    <h1>{{ game.1 }}</h1>
+
+    {% if game.12 %}
+      <img src="{{ game.12 }}" alt="Image de {{ game.1 }}" style="max-width: 200px;">
+    {% endif %}
+
+    <p><strong>Année de publication :</strong> {{ game.3 }}</p>
+    <p><strong>Nombre de joueurs :</strong> {{ game.4 }} à {{ game.5 }}</p>
+    <p><strong>Durée de jeu :</strong> {{ game.6 }} minutes</p>
+    <p><strong>Âge minimum :</strong> {{ game.7 }} ans</p>
+    <p><strong>Catégorie :</strong> {{ game.8}}</p>
+    <p><strong>Mécanique :</strong> {{ game.9 }}</p>
+    <p><strong>Auteur :</strong> {{ game.10 }}</p>
+    <p><strong>Éditeur :</strong> {{ game.11 }}</p>
+    <p><strong>Description :</strong> {{ game.2 }}</p>
+
+  </div>
+{% endblock %}

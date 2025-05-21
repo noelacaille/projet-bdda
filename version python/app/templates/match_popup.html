@@ -6,7 +6,7 @@
         {% for game in my_games %}
         <label>
             <input type="radio" name="offered_game_id" value="{{ game[0] }}">
-            {{ game[1] }}
+            <a href="{{ url_for('game_detail', game_title=game[1]) }}">{{ game[1] }}</a>
         </label><br>
         {% endfor %}
         

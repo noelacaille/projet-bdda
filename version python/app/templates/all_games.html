@@ -15,7 +15,7 @@
     <div class="games-grid">
       {% for game in games %}
         <div class="card">
-          <h3>{{ game[1] }}</h3> <!-- Titre -->
+          <h3><a href="{{ url_for('game_detail', game_title=game[1]) }}">{{ game[1] }}</a></h3> <!-- Titre -->
           {% if game[5] %}
             <img src="{{ game[5] }}" alt="Image de {{ game[1] }}" loading="lazy"
                  style="max-width: 200px; height: auto;">
