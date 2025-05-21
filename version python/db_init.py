@@ -1,10 +1,9 @@
 import MySQLdb
-import os
 from flask_bcrypt import Bcrypt
 
 DB_HOST = "localhost"
 DB_USER = "root"
-DB_PASSWORD = ""  # à adapter si tu as un mot de passe
+DB_PASSWORD = ""
 DB_NAME = "playntrade"
 
 def initialize_database():
@@ -21,6 +20,7 @@ def initialize_database():
     cursor.execute(f"USE {DB_NAME}")
 
     print("[DB INIT] Création des tables...")
+
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS users (
             id INT AUTO_INCREMENT PRIMARY KEY,
@@ -32,7 +32,7 @@ def initialize_database():
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS games (
-            id INT PRIMARY KEY,  -- correspond à l'id unique du jeu
+            id INT PRIMARY KEY,
             description TEXT,
             title TEXT,
             year_published INT,
@@ -45,8 +45,7 @@ def initialize_database():
             designer TEXT,
             publisher TEXT,
             thumbnail VARCHAR(255)
-        );
-
+        )
     """)
 
     cursor.execute("""
@@ -56,30 +55,19 @@ def initialize_database():
             game_id INT NOT NULL,
             game_condition ENUM('neuf', 'très bon état', 'bon état', 'acceptable') NOT NULL,
             city VARCHAR(100) NOT NULL,
-            FOREIGN KEY (user_id) REFERENCES users(id),
-            FOREIGN KEY (game_id) REFERENCES games(id)
-        );
-
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (game_id) REFERENCES games(id) ON DELETE CASCADE
+        )
     """)
 
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS likes (
             id INT AUTO_INCREMENT PRIMARY KEY,
-            user_id INT NOT NULL,             -- l'utilisateur qui like
-            user_game_id INT NOT NULL,        -- le jeu liké (dans user_games)
-            liked BOOLEAN NOT NULL,           -- TRUE si liké, FALSE si ignoré
-            FOREIGN KEY (user_id) REFERENCES users(id),
-            FOREIGN KEY (user_game_id) REFERENCES user_games(id)
-        );
-
-    """)
-
-    cursor.execute("""
-        CREATE TABLE IF NOT EXISTS audit_log (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            action VARCHAR(50),
-            username VARCHAR(50),
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+            user_id INT NOT NULL,
+            user_game_id INT NOT NULL,
+            liked BOOLEAN NOT NULL,
+            FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+            FOREIGN KEY (user_game_id) REFERENCES user_games(id) ON DELETE CASCADE
         )
     """)
 
@@ -89,8 +77,17 @@ def initialize_database():
             like_id INT NOT NULL,
             offered_game_id INT NOT NULL,
             created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (like_id) REFERENCES likes(id),
-            FOREIGN KEY (offered_game_id) REFERENCES user_games(id)
+            FOREIGN KEY (like_id) REFERENCES likes(id) ON DELETE CASCADE,
+            FOREIGN KEY (offered_game_id) REFERENCES user_games(id) ON DELETE CASCADE
+        )
+    """)
+
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS audit_log (
+            id INT AUTO_INCREMENT PRIMARY KEY,
+            action VARCHAR(50),
+            username VARCHAR(50),
+            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
         )
     """)
 
@@ -167,7 +164,7 @@ def initialize_database():
         FROM user_games ug
         JOIN games g ON ug.game_id = g.id
         JOIN users u ON ug.user_id = u.id
-        LEFT JOIN likes l ON ug.id = l.user_game_id;
+        LEFT JOIN likes l ON ug.id = l.user_game_id
     """)
 
     print("[DB INIT] Vérification de l'existence de l'admin...")
