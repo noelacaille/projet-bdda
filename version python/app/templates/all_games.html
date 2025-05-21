@@ -1,32 +1,39 @@
 {% extends "base.html" %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/all_games.css') }}">
+{% endblock %}
+
 {% block content %}
-  <h2>Liste des jeux</h2>
+  <div class="all-games-container">
+    <h2>Liste des jeux</h2>
 
-  <a href="{{ url_for('home') }}" class="btn btn-outline-primary">
-            <i class="fas fa-arrow-left"></i> Retour au menu
-        </a>
+    <a href="{{ url_for('home') }}" class="btn btn-outline-primary">
+              <i class="fas fa-arrow-left"></i> Retour au menu
+          </a>
 
-  <form method="get" action="{{ url_for('all_games') }}">
-    <input type="text" name="q" placeholder="Rechercher un jeu" value="{{ search_query }}">
-    <button type="submit">Rechercher</button>
-  </form>
+    <form method="get" action="{{ url_for('all_games') }}">
+      <input type="text" name="q" placeholder="Rechercher un jeu" value="{{ search_query }}">
+      <button type="submit">Rechercher</button>
+    </form>
 
-  {% if games %}
-    <div class="games-grid">
-      {% for game in games %}
-        <div class="card">
-          <h3><a href="{{ url_for('game_detail', game_title=game[1]) }}">{{ game[1] }}</a></h3> <!-- Titre -->
-          {% if game[5] %}
-            <img src="{{ game[5] }}" alt="Image de {{ game[1] }}" loading="lazy"
-                 style="max-width: 200px; height: auto;">
-          {% endif %}
-          <p>Proposé par : {{ game[2] }}</p>
-          <p>Ville : {{ game[3] }}</p>
-          <p>Condition : {{ game[4] }}</p>
-        </div>
-      {% endfor %}
-    </div>
-  {% else %}
-    <p>Aucun jeu trouvé.</p>
-  {% endif %}
+    {% if games %}
+      <div class="games-grid">
+        {% for game in games %}
+          <div class="card">
+            <h3><a href="{{ url_for('game_detail', game_title=game[1]) }}">{{ game[1] }}</a></h3> <!-- Titre -->
+            {% if game[5] %}
+              <img src="{{ game[5] }}" alt="Image de {{ game[1] }}" loading="lazy"
+                  style="max-width: 200px; height: auto;">
+            {% endif %}
+            <p>Proposé par : {{ game[2] }}</p>
+            <p>Ville : {{ game[3] }}</p>
+            <p>Condition : {{ game[4] }}</p>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>Aucun jeu trouvé.</p>
+    {% endif %}
+  </div>
 {% endblock %}

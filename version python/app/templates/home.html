@@ -1,4 +1,9 @@
 {% extends "base.html" %}
+
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/hsome.css') }}">
+{% endblock %}
+
 {% block content %}
   <p>Bienvenue sur Play'n'Trade</p>
 

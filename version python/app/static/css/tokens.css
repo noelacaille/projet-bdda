@@ -82,9 +82,8 @@
   --rotate-dislike: 8deg;
 
   /* Assets */
-  --image-background: url('static/img/background.png');
-  --image-logo: url('static/img/logo.png');
+  --image-background: url('../../img/background.png');
+  --image-logo: url('../../img/logo.png');
 }
 
 /* Un "Tinder des jeux" doit transmettre un sentiment de fun, simplicité et fluidité tout en restant moderne et agréable à utiliser. */
-/* Utilise Lucide pour rester dans l'univers UI friendly, flat & simple. */

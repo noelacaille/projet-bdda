@@ -1,5 +1,9 @@
 {% extends "base.html" %}
 
+{% block extra_head %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/my_likes.css') }}">
+{% endblock %}
+
 {% block content %}
 <div class="container mt-4">
     <h2>Mes propositions d'échange</h2>
