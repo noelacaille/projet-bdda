@@ -56,12 +56,6 @@ def init_routes(app):
         city = request.form['city']
 
         cursor = mysql.connection.cursor()
-        # Vérifier que l'utilisateur a au moins un jeu
-        cursor.execute("SELECT COUNT(*) FROM user_games WHERE user_id = %s", (current_user.id,))
-        if cursor.fetchone()[0] == 0:
-            flash("Vous devez d'abord proposer au moins un jeu avant d'échanger", 'warning')
-            return redirect(url_for('home'))
-    
         cursor.execute("SELECT id FROM games WHERE title = %s", (title,))
         result = cursor.fetchone()
 
@@ -91,7 +85,8 @@ def init_routes(app):
             FROM user_games 
             WHERE user_id = %s
         """, (current_user.id,))
-        user_has_games = cursor.fetchone()[0] > 0
+        test = cursor.fetchone()[0]
+        user_has_games = test > 0
 
         if not user_has_games:
             flash("Vous devez d'abord proposer des jeux avant de pouvoir échanger", 'warning')
