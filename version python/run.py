@@ -6,7 +6,7 @@ IMPORT_GAMES = False
 
 initialize_database()
 if IMPORT_GAMES:
-    import_games_from_csv("version python/details.csv", "version python/ratings.csv")
+    import_games_from_csv("details.csv", "ratings.csv")
 app = create_app()
 
 @app.template_filter('to_list')

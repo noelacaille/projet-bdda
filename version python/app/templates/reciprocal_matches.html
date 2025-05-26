@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-4 reciprocal-matches">
-    <h2>🤝 Tes matchs !</h2>
+<div class="container mt-4 admin-panel">
+    <h1 class="mb-4">🤝 Tes matchs !</h1>
     
     {% if matches %}
     <div class="table-responsive">
-        <table class="table table-hover">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Utilisateur</th>
@@ -18,15 +18,15 @@
                 {% for match in matches %}
                 <tr>
                     <td>{{ match[0] }}</td>
-                    <td><a href="{{ url_for('game_detail', game_title=match[3]) }}">{{ match[3] }}</a></td>
-                    <td><a href="{{ url_for('game_detail', game_title=match[2]) }}">{{ match[2] }}</a></td>
+                    <td><a href="{{ url_for('game_detail', game_title=match[3]) }}" class="text-primary">{{ match[3] }}</a></td>
+                    <td><a href="{{ url_for('game_detail', game_title=match[2]) }}" class="text-primary">{{ match[2] }}</a></td>
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
     </div>
     {% else %}
-    <div class="alert alert-info">
+    <div class="alert alert-info mt-4">
         Aucun like réciproque trouvé. Continuez à matcher !
     </div>
     {% endif %}

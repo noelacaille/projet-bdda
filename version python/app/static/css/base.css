@@ -1162,37 +1162,95 @@ a:hover {
 /* RECIPROCAL_MATCHES */
 /* -------------------------------------------------------------------------- */
 
-.reciprocal-matches .container {
-	margin-top: var(--space-xl);
+/* Ces styles devraient déjà être inclus via admin-panel, 
+   mais au cas où tu veuilles les spécifier uniquement pour cette page */
+
+.reciprocal-matches.admin-panel {
+    font-family: var(--font-family-sans);
+    line-height: var(--line-height-base);
+    color: var(--color-text);
+    background-color: transparent;
 }
 
-.reciprocal-matches h2 {
-	font-size: var(--font-size-xl);
-	margin-bottom: var(--space-md);
+.reciprocal-matches.admin-panel .container {
+    margin-top: var(--space-xl);
+    max-width: var(--container-max-width);
+    padding: 0 var(--space-md);
 }
 
-.reciprocal-matches .table {
-	margin-top: var(--space-md);
-	font-size: var(--font-size-base);
+.reciprocal-matches.admin-panel h1 {
+    font-size: var(--font-size-xl);
+    margin-bottom: var(--space-lg);
+    font-weight: var(--font-weight-bold);
+    color: var(--color-text);
+    border-bottom: var(--border-width) solid var(--color-border);
+    padding-bottom: var(--space-sm);
+    text-align: center;
 }
 
-.reciprocal-matches .table th,
-.reciprocal-matches .table td {
-	vertical-align: middle;
+.reciprocal-matches.admin-panel .table-responsive {
+    border-radius: var(--border-radius-md);
+    overflow: hidden;
+    box-shadow: var(--shadow-sm);
+    margin-bottom: var(--space-xl);
+    background-color: var(--color-surface);
+    border: var(--border-width) solid var(--color-border);
+    width: 100%;
 }
 
-.reciprocal-matches .table a {
-	text-decoration: none;
-	color: var(--color-link);
+.reciprocal-matches.admin-panel .table {
+    font-size: var(--font-size-sm);
+    margin-bottom: 0;
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
 }
 
-.reciprocal-matches .table a:hover {
-	text-decoration: underline;
+.reciprocal-matches.admin-panel .table thead th {
+    background-color: var(--color-background);
+    color: var(--color-text);
+    font-weight: var(--font-weight-medium);
+    text-transform: uppercase;
+    font-size: var(--font-size-sm);
+    letter-spacing: 0.5px;
+    padding: var(--space-md) var(--space-lg);
+    border-bottom: var(--border-width) solid var(--color-border);
 }
 
-.reciprocal-matches .alert {
-	margin-top: var(--space-md);
-	font-size: var(--font-size-base);
+.reciprocal-matches.admin-panel .table tbody tr:not(:last-child) {
+    border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.reciprocal-matches.admin-panel .table tbody tr:hover {
+    background-color: rgba(242, 140, 106, 0.05);
+}
+
+.reciprocal-matches.admin-panel .table td {
+    padding: var(--space-md) var(--space-lg);
+    vertical-align: middle;
+    color: var(--color-text);
+}
+
+.reciprocal-matches.admin-panel .table a {
+    color: var(--color-primary);
+    text-decoration: none;
+    font-weight: var(--font-weight-medium);
+    transition: var(--transition-fast);
+}
+
+.reciprocal-matches.admin-panel .table a:hover {
+    text-decoration: underline;
+    color: var(--color-primary-hover);
+}
+
+.reciprocal-matches.admin-panel .alert {
+    background-color: var(--color-info-bg);
+    color: var(--color-info-text);
+    padding: var(--space-md) var(--space-lg);
+    border-radius: var(--border-radius-md);
+    border: var(--border-width) solid var(--color-info-border);
+    margin-top: var(--space-md);
+    text-align: center;
 }
 
 /* -------------------------------------------------------------------------- */
