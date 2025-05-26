@@ -1,20 +1,12 @@
 {% extends "base.html" %}
 
-{% block extra_head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/my_likes.css') }}">
-{% endblock %}
-
 {% block content %}
-<div class="container mt-4">
-    <h2>Mes propositions d'échange</h2>
-
-    <a href="{{ url_for('home') }}" class="btn btn-outline-primary">
-            <i class="fas fa-arrow-left"></i> Retour au menu
-        </a>
+<div class="container mt-4 mes-likes">
+    <h1 class="mb-4">Mes propositions d'échange</h1>
     
     {% if matches %}
     <div class="table-responsive">
-        <table class="table table-hover">
+        <table class="table table-striped">
             <thead>
                 <tr>
                     <th>Date</th>
@@ -32,10 +24,10 @@
                     <td>{{ match[3] }}</td>
                     <td><a href="{{ url_for('game_detail', game_title=match[2]) }}">{{ match[2] }}</a></td>
                     <td>
-                        <form action="{{ url_for('delete_like', like_id=match[4]) }}" method="POST">
-                            <button type="submit" class="btn btn-danger btn-sm" 
+                        <form action="{{ url_for('delete_like', like_id=match[4]) }}" method="POST" style="display:inline;">
+                            <button type="submit" class="btn btn-sm btn-danger" 
                                     onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce like?')">
-                                <i class="fas fa-trash-alt"></i> Supprimer
+                                Supprimer
                             </button>
                         </form>
                     </td>

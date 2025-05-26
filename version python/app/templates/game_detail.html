@@ -1,12 +1,6 @@
 {% extends "base.html" %}
-
-{% block extra_head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/game_details.css') }}">
-{% endblock %}
-
 {% block content %}
   <div class="game-detail">
-    <a href="{{ url_for('index') }}">← Retour à l'accueil</a>
 
     <h1>{{ game.1 }}</h1>
 

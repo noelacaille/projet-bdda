@@ -1,78 +1,75 @@
 {% extends "base.html" %}
 
-{% block extra_head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/find_game.css') }}">
-{% endblock %}
-
 {% block content %}
 <div class="container mt-4 find-game-container">
     <div class="d-flex justify-content-between align-items-center mb-4">
         <h2><i class="fas fa-exchange-alt"></i> Jeu à échanger</h2>
-        <a href="{{ url_for('home') }}" class="btn btn-outline-primary">
-            <i class="fas fa-arrow-left"></i> Retour au menu
-        </a>
     </div>
 
     {% if no_games_left %}
-    <div class="alert alert-info">
-        <h4><i class="fas fa-info-circle"></i> Tour complet</h4>
+    <div class="empty-state">
+        <div class="empty-state-icon">
+            <i class="fas fa-check-circle"></i>
+        </div>
+        <h3>Tour complet</h3>
         <p>Vous avez parcouru tous les jeux disponibles pour le moment.</p>
         <p>Revenez plus tard pour découvrir de nouvelles propositions.</p>
     </div>
     {% elif game %}
-    <div class="card shadow-sm">
-        <div class="row g-0">
-            <div class="col-md-4">
-                {% if game[2] %}
-                <img src="{{ game[2] }}" class="img-fluid rounded-start" alt="{{ game[1] }}" style="max-height: 300px; object-fit: contain;">
-                {% else %}
-                <div class="d-flex align-items-center justify-content-center bg-light" style="height: 100%; min-height: 200px;">
-                    <i class="fas fa-gamepad fa-5x text-muted"></i>
-                </div>
-                {% endif %}
+    <div class="game-card">
+        <div class="game-image-container">
+            {% if game[2] %}
+            <img src="{{ game[2] }}" class="game-image" alt="{{ game[1] }}">
+            {% else %}
+            <div class="game-image-placeholder">
+                <i class="fas fa-gamepad"></i>
             </div>
-            <div class="col-md-8">
-                <div class="card-body">
-                    <h3 class="card-title"><a href="{{ url_for('game_detail', game_title=game[1]) }}">{{ game[1] }}</a></h3>
-                    <div class="game-details mb-4">
-                        <p><i class="fas fa-user"></i> <strong>Proposé par :</strong> {{ game[3] }}</p>
-                        <p><i class="fas fa-map-marker-alt"></i> <strong>Ville :</strong> {{ game[4] }}</p>
-                        <p><i class="fas fa-star-half-alt"></i> <strong>État :</strong> {{ game[5] | capitalize }}</p>
-                    </div>
-                    
-                    <form action="{{ url_for('handle_game_action') }}" method="post" class="mt-4">
-                        <input type="hidden" name="user_game_id" value="{{ game[0] }}">
-                        <div class="d-flex gap-3">
-                            <button type="submit" name="action" value="like" class="btn btn-success btn-lg flex-grow-1">
-                                <i class="fas fa-heart"></i> Liker
-                            </button>
-                            <button type="submit" name="action" value="ignore" class="btn btn-outline-secondary btn-lg flex-grow-1">
-                                <i class="fas fa-times"></i> Ignorer
-                            </button>
-                        </div>
-                    </form>
+            {% endif %}
+        </div>
+        
+        <div class="game-content">
+            <div class="game-header">
+                <h3 class="game-title">{{ game[1] }}</h3>
+                <div class="game-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>{{ game[4] }}</span>
                 </div>
+            </div>
+            
+            <div class="game-details">
+                <div class="detail-item">
+                    <span class="detail-label"><i class="fas fa-user"></i> Propriétaire</span>
+                    <span class="detail-value">{{ game[3] }}</span>
+                </div>
+                <div class="detail-item">
+                    <span class="detail-label"><i class="fas fa-star-half-alt"></i> État</span>
+                    <span class="detail-value">{{ game[5] | capitalize }}</span>
+                </div>
+            </div>
+            
+            <div class="game-actions">
+                <form action="{{ url_for('handle_game_action') }}" method="post">
+                    <input type="hidden" name="user_game_id" value="{{ game[0] }}">
+                    <div class="action-buttons">
+                        <button type="submit" name="action" value="ignore" class="btn-action btn-skip">
+                            <i class="fas fa-times"></i>
+                        </button>
+                        <button type="submit" name="action" value="like" class="btn-action btn-like">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
     {% else %}
-    <div class="alert alert-info">
-        <i class="fas fa-info-circle"></i> Aucun jeu disponible pour le moment.
+    <div class="empty-state">
+        <div class="empty-state-icon">
+            <i class="fas fa-info-circle"></i>
+        </div>
+        <h3>Aucun jeu disponible</h3>
+        <p>Il n'y a actuellement aucun jeu à échanger dans votre région.</p>
     </div>
     {% endif %}
 </div>
-
-<style>
-    .game-details p {
-        margin-bottom: 0.5rem;
-    }
-    .card {
-        border: none;
-        border-radius: 10px;
-        overflow: hidden;
-    }
-    .btn-lg {
-        padding: 0.5rem 1rem;
-    }
-</style>
 {% endblock %}

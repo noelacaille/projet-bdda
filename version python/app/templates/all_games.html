@@ -1,39 +1,60 @@
 {% extends "base.html" %}
 
-{% block extra_head %}
-<link rel="stylesheet" href="{{ url_for('static', filename='css/pages/all_games.css') }}">
-{% endblock %}
-
 {% block content %}
-  <div class="all-games-container">
-    <h2>Liste des jeux</h2>
-
-    <a href="{{ url_for('home') }}" class="btn btn-outline-primary">
-              <i class="fas fa-arrow-left"></i> Retour au menu
-          </a>
-
-    <form method="get" action="{{ url_for('all_games') }}">
-      <input type="text" name="q" placeholder="Rechercher un jeu" value="{{ search_query }}">
-      <button type="submit">Rechercher</button>
-    </form>
-
+<div class="container all-games-container">
+    <h2><i class="fas fa-gamepad"></i> Tous les jeux disponibles</h2>
+    
     {% if games %}
-      <div class="games-grid">
+    <div class="game-grid">
         {% for game in games %}
-          <div class="card">
-            <h3><a href="{{ url_for('game_detail', game_title=game[1]) }}">{{ game[1] }}</a></h3> <!-- Titre -->
-            {% if game[5] %}
-              <img src="{{ game[5] }}" alt="Image de {{ game[1] }}" loading="lazy"
-                  style="max-width: 200px; height: auto;">
+        <div class="game-card">
+            {% if game.2 %}
+            <img src="{{ game.5 }}" class="game-thumbnail" alt="{{ game.1 }}" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex'">
             {% endif %}
-            <p>Proposé par : {{ game[2] }}</p>
-            <p>Ville : {{ game[3] }}</p>
-            <p>Condition : {{ game[4] }}</p>
-          </div>
+            <div class="game-thumbnail placeholder" style="{% if game.2 %}display:none;{% endif %}">
+                <i class="fas fa-gamepad"></i>
+            </div>
+            
+            <div class="game-body">
+                <h5 class="game-title">{{ game.1 }}</h5>
+                <div class="game-meta">
+                    <div class="meta-item">
+                        <i class="fas fa-user"></i>
+                        <span>Proposé par {{ game.2 }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>{{ game.3 }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-info-circle"></i>
+                        <span class="condition condition-{{ game.4|lower|replace(' ', '-')|replace('é', 'e')|replace('è', 'e') }}">{{ game.4 }}</span>
+                    </div>
+                    
+                </div>
+            </div>
+            
+            <div class="game-footer">
+                <a href="{{ url_for('game_detail', game_title=game.1) }}" class="btn-view">
+                    <i class="fas fa-eye"></i> Voir
+                </a>
+                {% if current_user.is_authenticated and game.owner_id == current_user.id %}
+                <form action="{{ url_for('delete_offered_game', game_id=game.0) }}" method="POST" 
+                      onsubmit="return confirm('Supprimer ce jeu définitivement ?')">
+                    <button type="submit" class="btn-delete">
+                        <i class="fas fa-trash"></i> Supprimer
+                    </button>
+                </form>
+                {% endif %}
+            </div>
+        </div>
         {% endfor %}
-      </div>
+    </div>
     {% else %}
-      <p>Aucun jeu trouvé.</p>
+    <div class="alert alert-warning">
+        <h4><i class="fas fa-exclamation-triangle"></i> Aucun jeu disponible</h4>
+        <p>Aucun jeu n'est actuellement disponible pour l'échange.</p>
+    </div>
     {% endif %}
-  </div>
+</div>
 {% endblock %}

@@ -5,19 +5,39 @@
 {% endblock %}
 
 {% block content %}
-<div class="match-popup">
-    <h3>Choisir un jeu à échanger</h3>
-    <form action="{{ url_for('create_match') }}" method="POST">
-        <input type="hidden" name="like_id" value="{{ like_id }}">
+<div class="match-container">
+    <div class="match-header">
+        <div class="match-icon">
+            <i class="fas fa-heart"></i>
+        </div>
+        <h2>Match !</h2>
+        <p class="match-subtitle">Vous avez trouvé un partenaire d'échange</p>
+    </div>
+
+    <div class="match-content">
+        <h3>Choisissez un jeu à proposer</h3>
         
-        {% for game in my_games %}
-        <label>
-            <input type="radio" name="offered_game_id" value="{{ game[0] }}">
-            <a href="{{ url_for('game_detail', game_title=game[1]) }}">{{ game[1] }}</a>
-        </label><br>
-        {% endfor %}
-        
-        <button type="submit">Confirmer l'échange</button>
-    </form>
+        <form action="{{ url_for('create_match') }}" method="POST" class="game-selection">
+            <input type="hidden" name="like_id" value="{{ like_id }}">
+            
+            <div class="game-options-scroll">
+                {% for game in my_games %}
+                <label class="game-option">
+                    <input type="radio" name="offered_game_id" value="{{ game[0] }}" required>
+                    <div class="game-card-simple">
+                        <div class="game-info">
+                            <span class="game-title">{{ game[1] }}</span>
+                            <span class="game-state">{{ game[5] | capitalize }}</span>
+                        </div>
+                    </div>
+                </label>
+                {% endfor %}
+            </div>
+            
+            <button type="submit" class="confirm-btn">
+                <i class="fas fa-exchange-alt"></i> Proposer cet échange
+            </button>
+        </form>
+    </div>
 </div>
 {% endblock %}
