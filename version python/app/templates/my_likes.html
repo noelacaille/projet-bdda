@@ -19,13 +19,13 @@
             <tbody>
                 {% for match in matches %}
                 <tr>
-                    <td>{{ match[0].strftime('%d/%m/%Y %H:%M') }}</td>
+                    <td>{{ match[0] }}</td>
                     <td><a href="{{ url_for('game_detail', game_title=match[1]) }}">{{ match[1] }}</a></td>
                     <td>{{ match[3] }}</td>
                     <td><a href="{{ url_for('game_detail', game_title=match[2]) }}">{{ match[2] }}</a></td>
                     <td>
-                        <form action="{{ url_for('delete_like', like_id=match[4]) }}" method="POST" style="display:inline;">
-                            <button type="submit" class="btn btn-sm btn-danger" 
+                        <form action="{{ url_for('delete_like', like_id=match[0]) }}" method="POST">
+                            <button type="submit" class="btn btn-danger btn-sm" 
                                     onclick="return confirm('Êtes-vous sûr de vouloir supprimer ce like?')">
                                 Supprimer
                             </button>

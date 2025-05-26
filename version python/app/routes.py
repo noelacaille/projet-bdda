@@ -218,30 +218,28 @@ def init_routes(app):
     @login_required
     def my_likes():
         cursor = mysql.connection.cursor()
-        
-        # Récupération des matches avec les détails des jeux
+
         cursor.execute("""
             SELECT 
-                m.created_at,
-                liked_game.title AS liked_title,
-                offered_game.title AS offered_title,
-                owner.username AS owner_username,
-                l.id AS like_id
-            FROM matches m
-            JOIN likes l ON m.like_id = l.id
-            JOIN user_games liked_ug ON l.user_game_id = liked_ug.id
-            JOIN games liked_game ON liked_ug.game_id = liked_game.id
-            JOIN user_games offered_ug ON m.offered_game_id = offered_ug.id
-            JOIN games offered_game ON offered_ug.game_id = offered_game.id
-            JOIN users owner ON liked_ug.user_id = owner.id
-            WHERE l.user_id = %s
-            ORDER BY m.created_at DESC
+                l.id AS like_id,
+                g.title AS game_title,
+                o.username AS owner_username,
+                ug.city,
+                ug.game_condition,
+                g.thumbnail
+            FROM likes l
+            JOIN user_games ug ON l.user_game_id = ug.id
+            JOIN users o ON ug.user_id = o.id
+            JOIN games g ON ug.game_id = g.id
+            WHERE l.user_id = %s AND l.liked = TRUE
+            ORDER BY l.id DESC
         """, (current_user.id,))
-        
+
         matches = cursor.fetchall()
         cursor.close()
-        
+
         return render_template('my_likes.html', matches=matches)
+
     
     @app.route('/reciprocal_matches')
     @login_required

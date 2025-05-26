@@ -33,18 +33,18 @@ def initialize_database():
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS games (
             id INT PRIMARY KEY,
-            description TEXT,
-            title TEXT,
+            description VARCHAR(10000),
+            title VARCHAR(255),
             year_published INT,
             min_players INT,
             max_players INT,
             playing_time INT,
             min_age INT,
-            category TEXT,
-            mechanic TEXT,
-            designer TEXT,
-            publisher TEXT,
-            thumbnail VARCHAR(255)
+            category VARCHAR(1000),
+            mechanic VARCHAR(1000),
+            designer VARCHAR(1000),
+            publisher VARCHAR(2000),
+            thumbnail VARCHAR(1000)
         )
     """)
 
@@ -166,6 +166,144 @@ def initialize_database():
         JOIN users u ON ug.user_id = u.id
         LEFT JOIN likes l ON ug.id = l.user_game_id
     """)
+
+
+    cursor.execute("DROP TRIGGER IF EXISTS tr_GameInsert")
+    cursor.execute("""
+        CREATE TRIGGER tr_GameInsert
+        AFTER INSERT ON games
+        FOR EACH ROW
+        BEGIN
+            INSERT INTO audit_log (action, username)
+            VALUES ('GAME_CREATED', 'admin');
+        END
+    """)
+
+    cursor.execute("DROP TRIGGER IF EXISTS tr_GameUpdate")
+    cursor.execute("""
+        CREATE TRIGGER tr_GameUpdate
+        AFTER UPDATE ON games
+        FOR EACH ROW
+        BEGIN
+            INSERT INTO audit_log (action, username)
+            VALUES ('GAME_UPDATED', 'admin');
+        END
+    """)
+
+    cursor.execute("DROP TRIGGER IF EXISTS tr_GameDelete")
+    cursor.execute("""
+        CREATE TRIGGER tr_GameDelete
+        BEFORE DELETE ON games
+        FOR EACH ROW
+        BEGIN
+            INSERT INTO audit_log (action, username)
+            VALUES ('GAME_DELETED', 'admin');
+        END
+    """)
+
+    cursor.execute("DROP TRIGGER IF EXISTS tr_LikeInsert")
+    cursor.execute("""
+        CREATE TRIGGER tr_LikeInsert
+        AFTER INSERT ON likes
+        FOR EACH ROW
+        BEGIN
+            INSERT INTO audit_log (action, username)
+            SELECT 'LIKE_ADDED', username FROM users WHERE id = NEW.user_id;
+        END
+    """)
+
+    cursor.execute("DROP TRIGGER IF EXISTS tr_LikeDelete")
+    cursor.execute("""
+        CREATE TRIGGER tr_LikeDelete
+        BEFORE DELETE ON likes
+        FOR EACH ROW
+        BEGIN
+            INSERT INTO audit_log (action, username)
+            SELECT 'LIKE_REMOVED', username FROM users WHERE id = OLD.user_id;
+        END
+    """)
+
+    cursor.execute("DROP TRIGGER IF EXISTS tr_MatchInsert")
+    cursor.execute("""
+        CREATE TRIGGER tr_MatchInsert
+        AFTER INSERT ON matches
+        FOR EACH ROW
+        BEGIN
+            INSERT INTO audit_log (action, username)
+            SELECT 'MATCH_CREATED', u.username
+            FROM likes l
+            JOIN users u ON l.user_id = u.id
+            WHERE l.id = NEW.like_id;
+        END
+    """)
+
+    cursor.execute("DROP VIEW IF EXISTS vw_LikesWithDetails")
+    cursor.execute("""
+            CREATE OR REPLACE VIEW vw_LikesWithDetails AS
+            SELECT 
+                l.id AS like_id,
+                l.user_id AS liker_id,
+                u.username AS liker_username,
+                ug.id AS liked_user_game_id,
+                ug.user_id AS owner_id,
+                o.username AS owner_username,
+                g.title AS game_title,
+                g.thumbnail AS game_thumbnail,
+                ug.city,
+                ug.game_condition,
+                l.liked,
+                l.user_game_id,
+                l.id
+            FROM likes l
+            JOIN user_games ug ON l.user_game_id = ug.id
+            JOIN users o ON ug.user_id = o.id
+            JOIN users u ON l.user_id = u.id
+            JOIN games g ON ug.game_id = g.id
+        """)
+
+    
+    def create_index_if_not_exists(cursor, table_name, index_name, index_sql):
+        cursor.execute("""
+            SELECT COUNT(*) 
+            FROM information_schema.STATISTICS 
+            WHERE table_schema = %s AND table_name = %s AND index_name = %s
+        """, (DB_NAME, table_name, index_name))
+        exists = cursor.fetchone()[0]
+        if exists == 0:
+            print(f"[DB INIT] Création de l'index {index_name}...")
+            cursor.execute(index_sql)
+
+        print("[DB INIT] Création des index...")
+    
+
+    create_index_if_not_exists(cursor, 'users', 'idx_users_username', 
+        "CREATE INDEX idx_users_username ON users(username)")
+
+    create_index_if_not_exists(cursor, 'games', 'idx_games_title', 
+        "CREATE INDEX idx_games_title ON games(title)")
+
+    create_index_if_not_exists(cursor, 'user_games', 'idx_user_games_user_id', 
+        "CREATE INDEX idx_user_games_user_id ON user_games(user_id)")
+
+    create_index_if_not_exists(cursor, 'user_games', 'idx_user_games_game_id', 
+        "CREATE INDEX idx_user_games_game_id ON user_games(game_id)")
+
+    create_index_if_not_exists(cursor, 'likes', 'idx_likes_user_id', 
+        "CREATE INDEX idx_likes_user_id ON likes(user_id)")
+
+    create_index_if_not_exists(cursor, 'likes', 'idx_likes_user_game_id', 
+        "CREATE INDEX idx_likes_user_game_id ON likes(user_game_id)")
+
+    create_index_if_not_exists(cursor, 'matches', 'idx_matches_like_id', 
+        "CREATE INDEX idx_matches_like_id ON matches(like_id)")
+
+    create_index_if_not_exists(cursor, 'matches', 'idx_matches_offered_game_id', 
+        "CREATE INDEX idx_matches_offered_game_id ON matches(offered_game_id)")
+
+    create_index_if_not_exists(cursor, 'audit_log', 'idx_audit_log_created_at', 
+        "CREATE INDEX idx_audit_log_created_at ON audit_log(created_at DESC)")
+
+
 
     print("[DB INIT] Vérification de l'existence de l'admin...")
     cursor.execute("SELECT id FROM users WHERE username = 'admin'")
