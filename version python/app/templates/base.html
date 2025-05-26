@@ -13,11 +13,15 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% for category, message in messages %}
-            <div class="alert alert-{{ category }}">{{ message }}</div>
-        {% endfor %}
-    {% endwith %}
+    <div class="flash-messages">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="alert alert-{{ category }} flash-message">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endwith %}
+    </div>
 
     <nav class="navbar">
         <div class="container">
@@ -48,7 +52,16 @@
 
     {% block content %}{% endblock %}
     {% block scripts %}
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}">
+        document.addEventListener('DOMContentLoaded', function() {
+            // Suppression automatique après 2 secondes
+            document.querySelectorAll('.flash-message').forEach(message => {
+                setTimeout(() => {
+                    message.remove();
+                }, 2000);
+            });
+        });
+    </script>
     {% endblock %}
 </body>
 </html>
