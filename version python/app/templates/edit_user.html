@@ -5,8 +5,8 @@
     <h1>Éditer Utilisateur</h1>
     <form method="POST">
         <div class="form-group">
-            <label>Nom d'utilisateur</label>
-            <input type="text" class="form-control" value="{{ user.username }}" readonly>
+            <label for="username">Nom d'utilisateur</label>
+            <input type="text" class="form-control" value="{{ user.username }}" name="username" id="username" >
         </div>
         <div class="form-check mb-3">
             <input class="form-check-input" type="checkbox" name="is_admin" id="is_admin" 

@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Éditer Jeu</h1>
+
+    <form method="POST">
+        <div class="mb-3">
+            <label for="title" class="form-label">Titre</label>
+            <input type="text" class="form-control" id="title" name="title" value="{{ game[2] }}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <textarea class="form-control" id="description" name="description" rows="4">{{ game[1] }}</textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="year_published" class="form-label">Année de publication</label>
+            <input type="number" class="form-control" id="year_published" name="year_published" value="{{ game[3] }}">
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <label for="min_players" class="form-label">Joueurs min</label>
+                <input type="number" class="form-control" id="min_players" name="min_players" value="{{ game[4] }}">
+            </div>
+            <div class="col">
+                <label for="max_players" class="form-label">Joueurs max</label>
+                <input type="number" class="form-control" id="max_players" name="max_players" value="{{ game[5] }}">
+            </div>
+            <div class="col">
+                <label for="playing_time" class="form-label">Durée (min)</label>
+                <input type="number" class="form-control" id="playing_time" name="playing_time" value="{{ game[6] }}">
+            </div>
+            <div class="col">
+                <label for="min_age" class="form-label">Âge min</label>
+                <input type="number" class="form-control" id="min_age" name="min_age" value="{{ game[7] }}">
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="category" class="form-label">Catégories (séparées par des virgules)</label>
+            <input type="text" class="form-control" id="category" name="category" value="{{ game[8] }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="mechanic" class="form-label">Mécaniques (séparées par des virgules)</label>
+            <input type="text" class="form-control" id="mechanic" name="mechanic" value="{{ game[9] }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="designer" class="form-label">Designer(s) (séparés par des virgules)</label>
+            <input type="text" class="form-control" id="designer" name="designer" value="{{ game[10] }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="publisher" class="form-label">Éditeur(s) (séparés par des virgules)</label>
+            <input type="text" class="form-control" id="publisher" name="publisher" value="{{ game[11] }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="thumbnail" class="form-label">URL de la miniature</label>
+            <input type="url" class="form-control" id="thumbnail" name="thumbnail" value="{{ game[12] }}">
+        </div>
+
+        <button type="submit" class="btn btn-primary">Enregistrer</button>
+        <a href="{{ url_for('admin_panel') }}" class="btn btn-secondary">Annuler</a>
+    </form>
+</div>
+{% endblock %}

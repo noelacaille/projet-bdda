@@ -471,11 +471,13 @@ def init_routes(app):
 
         if request.method == 'POST':
             is_admin = 'is_admin' in request.form
+            username = request.form.get('username')
             cursor.execute("""
                 UPDATE users 
-                SET is_admin = %s 
+                SET username = %s,
+                is_admin = %s 
                 WHERE id = %s
-            """, (is_admin, user_id))
+            """, (username, is_admin, user_id))
             mysql.connection.commit()
             flash("Utilisateur mis à jour", "success")
             return redirect(url_for('admin_panel'))
@@ -492,50 +494,20 @@ def init_routes(app):
 
         cursor = mysql.connection.cursor()
         try:
-            # 1. Vérifier que l'utilisateur n'est pas admin
             cursor.execute("SELECT is_admin FROM users WHERE id = %s", (user_id,))
             result = cursor.fetchone()
             if not result:
                 flash("Utilisateur non trouvé", "danger")
                 return redirect(url_for('admin_panel'))
-                
+
             if result[0]:  # Si is_admin est True
                 flash("Impossible de supprimer un admin", "danger")
                 return redirect(url_for('admin_panel'))
 
-            # 2. Suppression en cascade complète
-            # D'abord les matches associés aux likes de l'utilisateur
-            cursor.execute("""
-                DELETE m FROM matches m
-                JOIN likes l ON m.like_id = l.id
-                WHERE l.user_id = %s
-            """, (user_id,))
-
-            # Ensuite les matches où l'utilisateur a offert des jeux
-            cursor.execute("""
-                DELETE m FROM matches m
-                JOIN user_games ug ON m.offered_game_id = ug.id
-                WHERE ug.user_id = %s
-            """, (user_id,))
-
-            # Puis les likes de l'utilisateur
-            cursor.execute("DELETE FROM likes WHERE user_id = %s", (user_id,))
-
-            # Les likes sur les jeux de l'utilisateur
-            cursor.execute("""
-                DELETE l FROM likes l
-                JOIN user_games ug ON l.user_game_id = ug.id
-                WHERE ug.user_id = %s
-            """, (user_id,))
-
-            # Les jeux proposés par l'utilisateur
-            cursor.execute("DELETE FROM user_games WHERE user_id = %s", (user_id,))
-
-            # Enfin l'utilisateur lui-même
             cursor.execute("DELETE FROM users WHERE id = %s", (user_id,))
-
             mysql.connection.commit()
-            flash("Utilisateur et toutes ses données associées supprimés avec succès", "success")
+            flash("Utilisateur supprimé avec succès", "success")
+
         except Exception as e:
             mysql.connection.rollback()
             flash(f"Erreur lors de la suppression: {str(e)}", "danger")
@@ -543,6 +515,7 @@ def init_routes(app):
             cursor.close()
 
         return redirect(url_for('admin_panel'))
+
 
     # Routes pour la gestion des jeux
     @app.route('/admin/games/add', methods=['GET', 'POST'])
@@ -593,15 +566,23 @@ def init_routes(app):
         cursor.execute("SELECT * FROM games WHERE id = %s", (game_id,))
         game = cursor.fetchone()
 
+        if not game:
+            flash("Jeu introuvable", "danger")
+            cursor.close()
+            return redirect(url_for('admin_panel'))
+
         if request.method == 'POST':
             try:
                 data = request.form.to_dict()
                 data['id'] = game_id
-                
-                # Convertir les listes en strings JSON
+
+                # Convertir les champs liste en JSON strings
                 for field in ['category', 'mechanic', 'designer', 'publisher']:
-                    if field in data:
-                        data[field] = json.dumps([x.strip() for x in data[field].split(',')])
+                    if field in data and data[field].strip():
+                        items = [x.strip() for x in data[field].split(',') if x.strip()]
+                        data[field] = json.dumps(items)
+                    else:
+                        data[field] = json.dumps([])  # Vide = liste vide
 
                 cursor.execute("""
                     UPDATE games SET
@@ -619,21 +600,27 @@ def init_routes(app):
                         thumbnail = %(thumbnail)s
                     WHERE id = %(id)s
                 """, data)
+
                 mysql.connection.commit()
                 flash("Jeu mis à jour", "success")
                 return redirect(url_for('admin_panel'))
+
             except Exception as e:
                 mysql.connection.rollback()
                 flash(f"Erreur: {str(e)}", "danger")
 
-        cursor.close()
-        
-        # Convertir les JSON strings en listes pour l'affichage
+        # Préparer le jeu pour l'affichage (conversion des champs JSON en texte simple)
         game = list(game)
-        for i in [8, 9, 10, 11]:  # indexes des champs liste
-            if game[i]:
-                game[i] = ", ".join(json.loads(game[i]))
-        
+        for i in [8, 9, 10, 11]:  # indexes de category, mechanic, designer, publisher
+            try:
+                if game[i] and isinstance(game[i], str) and game[i].strip().startswith('['):
+                    game[i] = ", ".join(json.loads(game[i]))
+                else:
+                    game[i] = ""
+            except (json.JSONDecodeError, TypeError):
+                game[i] = ""
+
+        cursor.close()
         return render_template('edit_game.html', game=game)
 
     @app.route('/admin/games/<int:game_id>/delete', methods=['POST'])
