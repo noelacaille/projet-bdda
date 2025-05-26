@@ -124,16 +124,7 @@ a:hover {
 }
 
 .admin-link {
-	background-color: var(--color-accent);
-	color: white !important;
-	padding: var(--space-xs) var(--space-sm) !important;
-	border-radius: var(--border-radius-sm);
-	transition: background-color var(--transition-fast);
-}
-
-.admin-link:hover {
-	background-color: var(--color-primary-hover) !important;
-	color: white !important;
+	border: 1px solid var(--color-accent);
 }
 
 /* -------------------------------------------------------------------------- */
@@ -738,67 +729,227 @@ a:hover {
 /* ADMIN_PANEL */
 /* -------------------------------------------------------------------------- */
 
-.admin-panel .container {
-	margin-top: var(--space-xl);
+.admin-panel {
+	font-family: var(--font-family-sans);
+	line-height: var(--line-height-base);
+	color: var(--color-text);
+	background-color: transparent;
 }
 
+.admin-panel .container {
+	margin-top: var(--space-xl);
+	max-width: var(--container-max-width);
+	padding: 0 var(--space-md);
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+/* Headings */
 .admin-panel h1 {
-	font-size: var(--font-size-xxl);
+	font-size: var(--font-size-xl);
 	margin-bottom: var(--space-lg);
+	font-weight: var(--font-weight-bold);
+	color: var(--color-text);
+	border-bottom: var(--border-width) solid var(--color-border);
+	padding-bottom: var(--space-sm);
+	text-align: center;
 }
 
 .admin-panel h3 {
 	font-size: var(--font-size-xl);
-	margin-top: var(--space-lg);
-	margin-bottom: var(--space-md);
+	margin: var(--space-xl) 0 var(--space-md);
+	font-weight: var(--font-weight-medium);
+	color: var(--color-text);
+	text-align: center;
 }
 
-.admin-panel .card {
-	border-radius: var(--radius-lg);
-	box-shadow: var(--shadow-light);
+/* Stats Grid */
+.admin-panel .stats-grid {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-lg);
+    margin-bottom: var(--space-xl);
+    width: 100%;
+    max-width: calc(2 * 260px + var(--space-lg));
+    margin-left: auto;
+    margin-right: auto;
 }
 
-.admin-panel .card .card-title {
-	font-size: var(--font-size-md);
+/* Stats Card (Tile) */
+.admin-panel .stats-card {
+	width: 200px;
+	background-color: transparent;
+	border-radius: var(--border-radius-md);
+	border: var(--border-width) solid var(--color-border);
+	box-shadow: var(--shadow-md);
+	transition: var(--transition-medium);
+	cursor: pointer;
+	overflow: hidden;
+	position: relative;
+}
+
+.admin-panel .stats-card:hover {
+	transform: translateY(-4px);
+	box-shadow: var(--shadow-lg);
+}
+
+.admin-panel .stats-card::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: var(--gradient-card);
+	opacity: 0.4;
+	z-index: -1;
+}
+
+.admin-panel .stats-card .card-body {
+	padding: var(--space-lg);
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.admin-panel .stats-card .card-title {
+	font-size: var(--font-size-sm);
+	text-transform: uppercase;
+	letter-spacing: 0.5px;
 	margin-bottom: var(--space-sm);
+	color: var(--color-muted);
+	font-weight: var(--font-weight-medium);
 }
 
-.admin-panel .card .card-text {
-	font-size: 2rem;
-	font-weight: bold;
+.admin-panel .stats-card .card-text {
+	font-size: 2.5rem;
+	font-weight: var(--font-weight-bold);
+	margin: var(--space-sm) 0;
+	color: var(--color-text);
 }
 
+/* Color variants */
+.admin-panel .stats-card.primary {
+	border-color: var(--color-primary);
+}
+
+.admin-panel .stats-card.success {
+	border-color: var(--color-success);
+}
+
+.admin-panel .stats-card.accent {
+	border-color: var(--color-accent);
+}
+
+.admin-panel .stats-card.secondary {
+	border-color: var(--color-secondary);
+}
+
+/* Table container */
+.admin-panel .table-responsive {
+	border-radius: var(--border-radius-md);
+	overflow: hidden;
+	box-shadow: var(--shadow-sm);
+	margin-bottom: var(--space-xl);
+	background-color: var(--color-surface);
+	border: var(--border-width) solid var(--color-border);
+	width: 100%;
+}
+
+/* Table */
 .admin-panel .table {
-	font-size: var(--font-size-base);
+	font-size: var(--font-size-sm);
+	margin-bottom: 0;
+	width: 100%;
+	border-collapse: separate;
+	border-spacing: 0;
 }
 
-.admin-panel .table td,
-.admin-panel .table th {
+.admin-panel .table thead th {
+	background-color: var(--color-background);
+	color: var(--color-text);
+	font-weight: var(--font-weight-medium);
+	text-transform: uppercase;
+	font-size: var(--font-size-sm);
+	letter-spacing: 0.5px;
+	padding: var(--space-md) var(--space-lg);
+	border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.admin-panel .table tbody tr:not(:last-child) {
+	border-bottom: var(--border-width) solid var(--color-border);
+}
+
+.admin-panel .table tbody tr:hover {
+	background-color: rgba(242, 140, 106, 0.05);
+}
+
+.admin-panel .table td {
+	padding: var(--space-md) var(--space-lg);
 	vertical-align: middle;
+	color: var(--color-text);
 }
 
+.admin-panel .table td:first-child {
+	font-weight: var(--font-weight-medium);
+}
+
+/* Buttons */
 .admin-panel .btn-sm {
-	margin-right: var(--space-xs);
+	padding: var(--space-xs) var(--space-sm);
+	font-size: var(--font-size-sm);
+	border-radius: var(--border-radius-sm);
+	box-shadow: none;
+	border: none;
+	transition: var(--transition-fast);
+	font-weight: var(--font-weight-medium);
 }
 
+.admin-panel .btn-primary {
+	background-color: var(--color-primary);
+	color: white;
+}
+
+.admin-panel .btn-primary:hover {
+	background-color: var(--color-primary-hover);
+	transform: translateY(-1px);
+}
+
+.admin-panel .btn-danger {
+	background-color: var(--color-error);
+	color: white;
+}
+
+.admin-panel .btn-danger:hover {
+	background-color: #d44a4a;
+	transform: translateY(-1px);
+}
+
+/* Pagination */
 .admin-panel .pagination {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	margin-top: var(--space-md);
+	margin-top: var(--space-xl);
 	gap: var(--space-sm);
 }
 
 .admin-panel .pagination a {
-	color: var(--color-link);
+	color: var(--color-primary);
 	text-decoration: none;
-	font-weight: 500;
+	font-weight: var(--font-weight-medium);
+	padding: var(--space-xs) var(--space-md);
+	border-radius: var(--border-radius-sm);
+	transition: var(--transition-fast);
+}
+
+.admin-panel .pagination a:hover {
+	background-color: rgba(242, 140, 106, 0.1);
+	transform: translateY(-1px);
 }
 
 .admin-panel .pagination span {
-	font-weight: bold;
+	font-weight: var(--font-weight-medium);
+	color: var(--color-muted);
+	padding: 0 var(--space-md);
 }
-
-/* -------------------------------------------------------------------------- */
-/* AUTRE */
-/* -------------------------------------------------------------------------- */

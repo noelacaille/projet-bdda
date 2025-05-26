@@ -5,37 +5,29 @@
     <h1 class="mb-4">Panel d'Administration</h1>
     
     <!-- Statistiques -->
-    <div class="row mb-4">
-        <div class="col-md-3">
-            <div class="card bg-primary text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Utilisateurs</h5>
-                    <p class="card-text display-4">{{ stats.users }}</p>
-                </div>
+    <div class="stats-grid">
+        <div class="stats-card card bg-primary text-white">
+            <div class="card-body">
+                <h5 class="card-title">Utilisateurs</h5>
+                <p class="card-text display-4">{{ stats.users }}</p>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card bg-success text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Jeux</h5>
-                    <p class="card-text display-4">{{ stats.games }}</p>
-                </div>
+        <div class="stats-card card bg-success text-white">
+            <div class="card-body">
+                <h5 class="card-title">Jeux</h5>
+                <p class="card-text display-4">{{ stats.games }}</p>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card bg-info text-white">
-                <div class="card-body">
-                    <h5 class="card-title">Échanges</h5>
-                    <p class="card-text display-4">{{ stats.exchanges }}</p>
-                </div>
+        <div class="stats-card card bg-info text-white">
+            <div class="card-body">
+                <h5 class="card-title">Échanges</h5>
+                <p class="card-text display-4">{{ stats.exchanges }}</p>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="card bg-warning text-dark">
-                <div class="card-body">
-                    <h5 class="card-title">Matches</h5>
-                    <p class="card-text display-4">{{ stats.matches }}</p>
-                </div>
+        <div class="stats-card card bg-warning text-dark">
+            <div class="card-body">
+                <h5 class="card-title">Matches</h5>
+                <p class="card-text display-4">{{ stats.matches }}</p>
             </div>
         </div>
     </div>
