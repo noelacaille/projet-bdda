@@ -237,6 +237,30 @@ def initialize_database():
         END
     """)
 
+    cursor.execute("DROP VIEW IF EXISTS vw_LikesWithDetails")
+    cursor.execute("""
+            CREATE OR REPLACE VIEW vw_LikesWithDetails AS
+            SELECT 
+                l.id AS like_id,
+                l.user_id AS liker_id,
+                u.username AS liker_username,
+                ug.id AS liked_user_game_id,
+                ug.user_id AS owner_id,
+                o.username AS owner_username,
+                g.title AS game_title,
+                g.thumbnail AS game_thumbnail,
+                ug.city,
+                ug.game_condition,
+                l.liked,
+                l.user_game_id,
+                l.id
+            FROM likes l
+            JOIN user_games ug ON l.user_game_id = ug.id
+            JOIN users o ON ug.user_id = o.id
+            JOIN users u ON l.user_id = u.id
+            JOIN games g ON ug.game_id = g.id
+        """)
+
     
     def create_index_if_not_exists(cursor, table_name, index_name, index_sql):
         cursor.execute("""
