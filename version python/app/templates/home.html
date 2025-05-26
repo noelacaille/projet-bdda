@@ -1,34 +1,171 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <p>Bienvenue sur Play'n'Trade</p>
+  <main class="landing-container">
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-content">
+        <h1>Échangez vos jeux comme jamais auparavant</h1>
+        <p class="hero-text">Découvrez, matchez et échangez vos jeux vidéo avec une communauté passionnée. Simple, rapide et sécurisé.</p>
+        <div class="hero-cta">
+          <button id="open-modal" class="cta-primary">
+            <span class="cta-content">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="cta-icon">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+              AJOUTER MON PREMIER JEU
+            </span>
+          </button>
+        </div>
+      </div>
+      <div class="hero-image">
+        <img src="{{ url_for('static', filename='img/logo.png') }}" alt="Collection de jeux vidéo">
+      </div>
+    </section>
 
-  <button id="open-modal">Échanger mon jeu</button>
+    <!-- Value Proposition -->
+    <section class="value-section">
+      <div class="value-cards">
+        <div class="value-card">
+          <div class="value-icon" style="background-color: #FBCB9C;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M22 12h-4l-3 9L9 3l-3 9H2"/>
+            </svg>
+          </div>
+          <h3>Échanges intelligents</h3>
+          <p>Notre algorithme trouve les meilleurs matches pour vos jeux.</p>
+        </div>
+        
+        <div class="value-card">
+          <div class="value-icon" style="background-color: #F28C6A;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10"/><path d="M8 14s1.5 2 4 2 4-2 4-2"/><line x1="9" y1="9" x2="9.01" y2="9"/><line x1="15" y1="9" x2="15.01" y2="9"/>
+            </svg>
+          </div>
+          <h3>Communauté fiable</h3>
+          <p>Des joueurs vérifiés pour des échanges en toute confiance.</p>
+        </div>
+        
+        <div class="value-card">
+          <div class="value-icon" style="background-color: #FF7E66;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+            </svg>
+          </div>
+          <h3>100% gratuit</h3>
+          <p>Pas de frais cachés, échangez autant que vous voulez.</p>
+        </div>
+      </div>
+    </section>
 
+    <!-- How It Works -->
+    <section id="how-it-works" class="how-section">
+      <h2>Comment ça marche</h2>
+      <div class="steps-container">
+        <div class="step">
+          <div class="step-number">1</div>
+          <div class="step-content">
+            <h3>Ajoutez vos jeux</h3>
+            <p>Créez votre collection en ajoutant les jeux que vous souhaitez échanger.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">2</div>
+          <div class="step-content">
+            <h3>Swipez et matchez</h3>
+            <p>Parcourez les jeux disponibles et likez ceux qui vous intéressent.</p>
+          </div>
+        </div>
+        <div class="step">
+          <div class="step-number">3</div>
+          <div class="step-content">
+            <h3>Échangez en toute sécurité</h3>
+            <p>Une fois le match confirmé, organisez l'échange en personne ou par envoi.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="testimonials-section">
+      <h2>Ce que disent nos joueurs</h2>
+      <div class="testimonials-container">
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <p>"J'ai échangé 5 jeux en un mois ! Une révolution pour ma collection."</p>
+          </div>
+          <div class="testimonial-author">
+            <div class="author-avatar" style="background-color: #FBCB9C;">B</div>
+            <div class="author-info">
+              <strong>Bily S.</strong>
+              <span>Paris 13</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <p>"Enfin une app qui comprend les joueurs. L'interface est parfaite."</p>
+          </div>
+          <div class="testimonial-author">
+            <div class="author-avatar" style="background-color: #F28C6A;">S</div>
+            <div class="author-info">
+              <strong>S. Bily</strong>
+              <span>Strasbourg</span>
+            </div>
+          </div>
+        </div>
+        
+        <div class="testimonial-card">
+          <div class="testimonial-content">
+            <p>"J'ai trouvé des collectors introuvables ailleurs. Une pépite !"</p>
+          </div>
+          <div class="testimonial-author">
+            <div class="author-avatar" style="background-color: #FF7E66;">B</div>
+            <div class="author-info">
+              <strong>Bibi Sasa</strong>
+              <span>Vientiane</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final CTA -->
+    <section class="final-cta">
+      <h2>Prêt à révolutionner votre façon d'échanger des jeux ?</h2>
+      <p>Rejoignez la communauté Play'n'Trade dès maintenant</p>
+
+    </section>
+  </main>
+
+  <!-- Exchange Game Modal -->
   <div id="modal-backdrop" class="modal-backdrop">
     <div class="modal">
       <button id="close-modal" class="modal-close">&times;</button>
+      <h3>Ajouter un jeu à échanger</h3>
       <form method="POST" action="{{ url_for('exchange_game') }}">
-          <label for="game_title">Nom du jeu :</label>
-          <input list="games" name="game_title" required>
-          <datalist id="games">
-              {% for game in games %}
-              <option value="{{ game[1] }}"></option>
-              {% endfor %}
-          </datalist>
+        <label for="game_title">Nom du jeu :</label>
+        <input list="games" name="game_title" required>
+        <datalist id="games">
+          {% for game in games %}
+          <option value="{{ game[1] }}"></option>
+          {% endfor %}
+        </datalist>
 
-          <label for="condition">État du jeu :</label>
-          <select name="condition" required>
-              <option>neuf</option>
-              <option>très bon état</option>
-              <option>bon état</option>
-              <option>acceptable</option>
-          </select>
+        <label for="condition">État du jeu :</label>
+        <select name="condition" required>
+          <option>neuf</option>
+          <option>très bon état</option>
+          <option>bon état</option>
+          <option>acceptable</option>
+        </select>
 
-          <label for="city">Ville :</label>
-          <input type="text" name="city" required>
+        <label for="city">Ville :</label>
+        <input type="text" name="city" required>
 
-          <input type="submit" value="Ajouter">
+        <input type="submit" value="Ajouter" class="cta-primary">
       </form>
     </div>
   </div>
@@ -45,5 +182,15 @@
   window.onclick = (e) => {
     if (e.target === backdrop) backdrop.style.display = 'none';
   };
+
+  // Smooth scrolling for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      document.querySelector(this.getAttribute('href')).scrollIntoView({
+        behavior: 'smooth'
+      });
+    });
+  });
 </script>
 {% endblock %}
