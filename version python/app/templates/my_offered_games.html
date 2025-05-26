@@ -4,17 +4,6 @@
 <link rel="stylesheet" href="{{ url_for('static', filename='css/pages/my_offered_games.css') }}">
 {% endblock %}
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        {% for category, message in messages %}
-        <div class="alert alert-{{ category }} alert-dismissible fade show">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-        {% endfor %}
-    {% endif %}
-{% endwith %}
-
 {% block content %}
 <div class="container my-offered-games">
 
@@ -32,24 +21,36 @@
             {% if game.2 %}
             <img src="{{ game.2 }}" class="game-thumbnail" alt="{{ game.1 }}">
             {% else %}
-            <div class="game-thumbnail" style="background: #f5f5f5; display: flex; align-items: center; justify-content: center;">
-                <i class="fas fa-gamepad" style="font-size: 2rem; color: #ddd;"></i>
+            <div class="game-thumbnail placeholder">
+                <i class="fas fa-gamepad"></i>
             </div>
             {% endif %}
             
             <div class="game-body">
-                <h5 class="game-title"><a href="{{ url_for('game_detail', game_title=game.1) }}">{{ game.1 }}</a></h5>
+                <h5 class="game-title">{{ game.1 }}</h5>
                 <div class="game-meta">
-                    <div><i class="fas fa-map-marker-alt"></i> {{ game.4 }}</div>
-                    <div><i class="fas fa-star"></i> {{ game.5 }} like(s)</div>
-                    <div>État: {{ game.3 }}</div>
+                    <div class="meta-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span>{{ game.4 }}</span>
+                    </div>
+                    <div class="meta-item">
+                        <i class="fas fa-star"></i>
+                        <span>{{ game.5 }} like(s)</span>
+                    </div>
+                    <div class="meta-item condition condition-{{ game.3|lower|replace(' ', '-')|replace('é', 'e')|replace('è', 'e') }}">
+                        <i class="fas fa-info-circle"></i>
+                        <span>{{ game.3 }}</span>
+                    </div>
                 </div>
             </div>
             
-            <div class="game-actions">
+            <div class="game-footer">
+                <a href="{{ url_for('game_detail', game_title=game.1) }}" class="btn btn-view">
+                    <i class="fas fa-eye"></i> Voir
+                </a>
                 <form action="{{ url_for('delete_offered_game', game_id=game.0) }}" method="POST" 
                       onsubmit="return confirm('Supprimer ce jeu définitivement ?')">
-                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                    <button type="submit" class="btn btn-delete">
                         <i class="fas fa-trash"></i> Supprimer
                     </button>
                 </form>
