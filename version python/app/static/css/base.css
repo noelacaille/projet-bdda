@@ -92,6 +92,50 @@ a:hover {
 	color: var(--color-text);
 }
 
+.nav-links li a.active {
+	background-color: var(--color-primary);
+	color: white;
+}
+
+.logout-link {
+	background-color: #d04545;
+	color: white !important;
+	padding: var(--space-xs) var(--space-sm) !important;
+	border-radius: var(--border-radius-sm);
+	transition: background-color var(--transition-fast);
+}
+
+.logout-link:hover {
+	background-color: #b83737 !important;
+	color: white !important;
+}
+
+.login-link {
+	background-color: #4a9d5d;
+	color: white !important;
+	padding: var(--space-xs) var(--space-sm) !important;
+	border-radius: var(--border-radius-sm);
+	transition: background-color var(--transition-fast);
+}
+
+.login-link:hover {
+	background-color: #3d824d !important;
+	color: white !important;
+}
+
+.admin-link {
+	background-color: var(--color-accent);
+	color: white !important;
+	padding: var(--space-xs) var(--space-sm) !important;
+	border-radius: var(--border-radius-sm);
+	transition: background-color var(--transition-fast);
+}
+
+.admin-link:hover {
+	background-color: var(--color-primary-hover) !important;
+	color: white !important;
+}
+
 /* -------------------------------------------------------------------------- */
 /* HOME */
 /* -------------------------------------------------------------------------- */
