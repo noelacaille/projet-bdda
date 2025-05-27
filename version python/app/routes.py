@@ -40,15 +40,31 @@ def init_routes(app):
             return redirect(url_for('login'))
         return render_template('signup.html')
 
-
     @app.route('/home')
     @login_required
     def home():
         cursor = mysql.connection.cursor()
+        
+        # Récupération des jeux disponibles
         cursor.execute("SELECT id, title FROM games")
         games = cursor.fetchall()
+        
+        # Récupération des statistiques utilisateur via la nouvelle vue
+        cursor.execute("SELECT * FROM vw_UserGameStats WHERE user_id = %s", (current_user.id,))
+        user_stats = cursor.fetchone()
+        
+        # Récupération des jeux recommandés via la nouvelle procédure
+        try:
+            cursor.callproc("sp_GetRecommendedGames", (current_user.id, 3))
+            recommended_games = cursor.fetchall()
+        except:
+            recommended_games = []
+        
         cursor.close()
-        return render_template('home.html', games=games)
+        return render_template('home.html', 
+                             games=games, 
+                             user_stats=user_stats,
+                             recommended_games=recommended_games)
 
     @app.route('/exchange', methods=['POST'])
     @login_required
@@ -78,7 +94,6 @@ def init_routes(app):
     @app.route('/find_game')
     @login_required
     def find_game():
-
         cursor = mysql.connection.cursor()
 
         # D'abord vérifier si l'utilisateur a des jeux à proposer
@@ -95,7 +110,6 @@ def init_routes(app):
             return redirect(url_for('home'))
 
         # Si l'utilisateur a des jeux, continuer avec la recherche normale
-
         cursor.execute("""
             SELECT * FROM vw_AvailableGames
             WHERE owner_id != %s
@@ -109,6 +123,60 @@ def init_routes(app):
             return render_template('find_game.html', game=[])
         return render_template('find_game.html', game=game[0])
 
+    @app.route('/recommendations')
+    @login_required
+    def recommendations():
+        """Nouvelle route pour afficher les jeux recommandés"""
+        cursor = mysql.connection.cursor()
+        
+        try:
+            cursor.callproc("sp_GetRecommendedGames", (current_user.id, 10))
+            recommended_games = cursor.fetchall()
+        except Exception as e:
+            flash(f"Erreur lors du chargement des recommandations: {str(e)}", 'warning')
+            recommended_games = []
+        
+        cursor.close()
+        return render_template('recommendations.html', games=recommended_games)
+
+    @app.route('/dashboard')
+    @login_required
+    def user_dashboard():
+        """Nouveau tableau de bord utilisateur avec statistiques détaillées"""
+        cursor = mysql.connection.cursor()
+        
+        # Statistiques utilisateur via la vue
+        cursor.execute("SELECT * FROM vw_UserGameStats WHERE user_id = %s", (current_user.id,))
+        user_stats = cursor.fetchone()
+        
+        # Activité récente
+        cursor.execute("""
+            SELECT action, created_at 
+            FROM audit_log 
+            WHERE username = %s 
+            ORDER BY created_at DESC 
+            LIMIT 10
+        """, (current_user.username,))
+        recent_activity = cursor.fetchall()
+        
+        # Jeux les plus populaires de l'utilisateur (les plus likés)
+        cursor.execute("""
+            SELECT g.title, g.thumbnail, COUNT(l.id) as like_count
+            FROM user_games ug
+            JOIN games g ON ug.game_id = g.id
+            LEFT JOIN likes l ON ug.id = l.user_game_id AND l.liked = TRUE
+            WHERE ug.user_id = %s
+            GROUP BY ug.id, g.title, g.thumbnail
+            ORDER BY like_count DESC
+            LIMIT 5
+        """, (current_user.id,))
+        popular_games = cursor.fetchall()
+        
+        cursor.close()
+        return render_template('dashboard.html', 
+                             user_stats=user_stats,
+                             recent_activity=recent_activity,
+                             popular_games=popular_games)
 
     @app.route('/handle_game_action', methods=['POST'])
     @login_required
@@ -240,7 +308,6 @@ def init_routes(app):
 
         return render_template('my_likes.html', matches=matches)
 
-    
     @app.route('/reciprocal_matches')
     @login_required
     def reciprocal_matches():
@@ -267,7 +334,7 @@ def init_routes(app):
             AND l1.liked = TRUE
             AND l2.liked = TRUE
             AND l2.user_id = ug1.user_id   -- l'autre user a liké un de mes jeux
-            AND ug2.user_id = l1.user_id   -- le jeu que j’ai liké appartient à l’autre
+            AND ug2.user_id = l1.user_id   -- le jeu que j'ai liké appartient à l'autre
 
         """, (current_user.id,))
         
@@ -301,7 +368,6 @@ def init_routes(app):
             cursor.close()
         
         return redirect(url_for('my_likes'))
-    
 
     @app.route('/my_offered_games')
     @login_required
@@ -403,7 +469,7 @@ def init_routes(app):
 
         cursor = mysql.connection.cursor()
 
-        # Récupérer les statistiques
+        # Récupérer les statistiques via la nouvelle vue
         cursor.execute("SELECT COUNT(*) FROM users")
         users_count = cursor.fetchone()[0]
 
@@ -427,33 +493,42 @@ def init_routes(app):
         cursor.execute("SELECT * FROM audit_log ORDER BY created_at DESC LIMIT 50")
         logs = cursor.fetchall()
 
+        # Top utilisateurs via la nouvelle vue
+        cursor.execute("""
+            SELECT username, games_offered, likes_given, likes_received, matches_created 
+            FROM vw_UserGameStats 
+            WHERE is_admin = FALSE
+            ORDER BY (games_offered + likes_given + matches_created) DESC 
+            LIMIT 10
+        """)
+        top_users = cursor.fetchall()
+
         # Liste des utilisateurs
         cursor.execute("SELECT id, username, is_admin FROM users")
         users = cursor.fetchall()
 
-        # Liste des jeux
         # Pagination des jeux
         page = request.args.get('page', default=1, type=int)
-        per_page = 10  # Nombre de jeux par page
+        per_page = 10
         offset = (page - 1) * per_page
 
         cursor.execute("SELECT id, title, year_published, description FROM games ORDER BY title LIMIT %s OFFSET %s", (per_page, offset))
         games = cursor.fetchall()
 
         # Nombre total de pages
-        total_pages = (games_count + per_page - 1) // per_page  # arrondi vers le haut
+        total_pages = (games_count + per_page - 1) // per_page
 
         cursor.close()
         return render_template(
-        'admin_panel.html',
-        stats=stats,
-        logs=logs,
-        users=users,
-        games=games,
-        current_page=page,
-        total_pages=total_pages
-    )
-
+            'admin_panel.html',
+            stats=stats,
+            logs=logs,
+            users=users,
+            games=games,
+            top_users=top_users,
+            current_page=page,
+            total_pages=total_pages
+        )
     
     # Routes pour la gestion des utilisateurs
     @app.route('/admin/users/<int:user_id>/edit', methods=['GET', 'POST'])
@@ -513,7 +588,6 @@ def init_routes(app):
             cursor.close()
 
         return redirect(url_for('admin_panel'))
-
 
     # Routes pour la gestion des jeux
     @app.route('/admin/games/add', methods=['GET', 'POST'])

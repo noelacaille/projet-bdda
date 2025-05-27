@@ -124,6 +124,53 @@ def initialize_database():
         END
     """)
 
+    cursor.execute("DROP VIEW IF EXISTS vw_LikesWithDetails")
+    cursor.execute("""
+            CREATE OR REPLACE VIEW vw_LikesWithDetails AS
+            SELECT 
+                l.id AS like_id,
+                l.user_id AS liker_id,
+                u.username AS liker_username,
+                ug.id AS liked_user_game_id,
+                ug.user_id AS owner_id,
+                o.username AS owner_username,
+                g.title AS game_title,
+                g.thumbnail AS game_thumbnail,
+                ug.city,
+                ug.game_condition,
+                l.liked,
+                l.user_game_id,
+                l.id
+            FROM likes l
+            JOIN user_games ug ON l.user_game_id = ug.id
+            JOIN users o ON ug.user_id = o.id
+            JOIN users u ON l.user_id = u.id
+            JOIN games g ON ug.game_id = g.id
+        """)
+
+    cursor.execute("DROP VIEW IF EXISTS vw_UserGameStats")
+    cursor.execute("""
+        CREATE OR REPLACE VIEW vw_UserGameStats AS
+        SELECT 
+            u.id AS user_id,
+            u.username,
+            COUNT(DISTINCT ug.id) AS games_offered,
+            COUNT(DISTINCT l.id) AS likes_given,
+            COUNT(DISTINCT l2.id) AS likes_received,
+            COUNT(DISTINCT m.id) AS matches_created,
+            u.is_admin
+        FROM users u
+        LEFT JOIN user_games ug ON u.id = ug.user_id
+        LEFT JOIN likes l ON u.id = l.user_id AND l.liked = TRUE
+        LEFT JOIN likes l2 ON l2.user_game_id IN (
+            SELECT id FROM user_games WHERE user_id = u.id
+        ) AND l2.liked = TRUE
+        LEFT JOIN matches m ON m.like_id IN (
+            SELECT id FROM likes WHERE user_id = u.id
+        )
+        GROUP BY u.id, u.username, u.is_admin
+    """)
+
     cursor.execute("DROP TRIGGER IF EXISTS tr_AfterUserInsert")
     cursor.execute("""
         CREATE TRIGGER tr_AfterUserInsert
