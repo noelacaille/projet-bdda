@@ -2,7 +2,7 @@ from app import create_app
 from db_init import initialize_database
 from import_games import import_games_from_csv
 
-IMPORT_GAMES = False
+IMPORT_GAMES = True
 
 initialize_database()
 if IMPORT_GAMES:
